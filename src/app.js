@@ -7,6 +7,11 @@ const path = require("path");
 const authMiddleware = require("./middleware/auth");
 const healthRouter = require("./routes/health");
 const statusRouter = require("./routes/status");
+const crawlRouter = require("./routes/crawl");
+const mapRouter = require("./routes/map");
+const metadataRouter = require("./routes/metadata");
+const getMediaRouter = require("./routes/getmedia");
+const getMarkdownRouter = require("./routes/getmarkdown");
 const pagesRouter = require("./routes/pages");
 const swaggerRoute = require("../pages/swagger");
 
@@ -61,6 +66,16 @@ app.use("/v2", authMiddleware);
 // Mount route modules
 app.use("/v2/health", healthRouter);
 app.use("/v2/status", statusRouter);
+app.use("/v2/crawl", crawlRouter);
+app.use("/v2/metadata", metadataRouter);
+app.use("/v2/getmedia", getMediaRouter);
+app.use("/v2/getmarkdown", getMarkdownRouter);
+
+// Also expose as /map (still protected)
+app.use("/map", authMiddleware, mapRouter);
+app.use("/metadata", authMiddleware, metadataRouter);
+app.use("/getmedia", authMiddleware, getMediaRouter);
+app.use("/getmarkdown", authMiddleware, getMarkdownRouter);
 
 // 404 handler
 app.use((req, res) => {
