@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>libiweb API v2 - Docs</title>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1rem 3rem;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    h1, h2 { margin-top: 0; }
+    code {
+      background: #eef2ff;
+      padding: 0.15rem 0.35rem;
+      border-radius: 6px;
+    }
+    pre {
+      background: #111827;
+      color: #f9fafb;
+      border-radius: 10px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+    nav a { margin-right: 0.75rem; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>libiweb API v2</h1>
+    <nav>
+      <a href="/docs">Docs</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/security">Security</a>
+      <a href="/terms">Terms</a>
+      <a href="/status">Status</a>
+    </nav>
+
+    <section class="card">
+      <h2>Base URL</h2>
+      <p><code>https://api.libiweb.com</code></p>
+    </section>
+
+    <section class="card">
+      <h2>Authentication</h2>
+      <p>All <code>/v2/*</code> routes require the <code>x-api-key</code> request header.</p>
+      <pre>x-api-key: your-api-key</pre>
+    </section>
+
+    <section class="card">
+      <h2>Endpoints</h2>
+      <ul>
+        <li><code>GET /</code> - public service metadata.</li>
+        <li><code>GET /swagger.json</code> - OpenAPI specification (public).</li>
+        <li><code>GET /v2/health</code> - health check (requires API key).</li>
+        <li><code>GET /v2/status</code> - runtime status (requires API key).</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Example</h2>
+      <pre>curl -H "x-api-key: your-api-key" https://api.libiweb.com/v2/health</pre>
+    </section>
+  </main>
+</body>
+</html>
