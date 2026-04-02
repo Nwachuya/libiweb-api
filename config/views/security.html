@@ -1,33 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Security - libiweb API</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      background: #f5f7fb;
-      color: #1f2937;
-      line-height: 1.6;
-    }
-    .container { max-width: 860px; margin: 0 auto; padding: 2rem 1rem 3rem; }
-    .card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 1.2rem;
-      margin-bottom: 1rem;
-    }
-    h1, h2 { margin-top: 0; }
-    code { background: #eef2ff; padding: 0.15rem 0.35rem; border-radius: 6px; }
-  </style>
-</head>
-<body>
-  <main class="container">
+<section class="page-main">
+  <div class="shell">
     <h1>Security</h1>
-    <div class="card">
+    <p class="lead">Core controls and responsible usage guidance for LibiWeb API.</p>
+    <div class="panel">
       <h2>Controls</h2>
       <ul>
         <li>API key authentication for <code>/v2/*</code> endpoints.</li>
@@ -35,14 +10,13 @@
         <li>Security headers via Helmet middleware.</li>
       </ul>
     </div>
-    <div class="card">
+    <div class="panel">
       <h2>Responsible Use</h2>
       <p>Keep API keys private, rotate compromised keys immediately, and avoid sharing credentials in client-side code or logs.</p>
     </div>
-    <div class="card">
+    <div class="panel">
       <h2>Reporting</h2>
       <p>To report a security issue, use your internal support/security communication channel and include clear reproduction steps.</p>
     </div>
-  </main>
-</body>
-</html>
+  </div>
+</section>

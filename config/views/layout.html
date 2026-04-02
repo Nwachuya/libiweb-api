@@ -3,21 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>libiweb API - Layout</title>
+  <title>{{TITLE}}</title>
+  <meta name="title" content="{{TITLE}}" />
+  <meta name="description" content="{{DESCRIPTION}}" />
+  <meta name="keywords" content="{{KEYWORDS}}" />
+  <meta name="robots" content="{{ROBOTS}}" />
+  <meta name="author" content="LibiWeb" />
+  <link rel="canonical" href="{{CANONICAL}}" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LibiWeb API" />
+  <meta property="og:url" content="{{CANONICAL}}" />
+  <meta property="og:title" content="{{OG_TITLE}}" />
+  <meta property="og:description" content="{{OG_DESCRIPTION}}" />
+  <meta property="og:image" content="https://api.libiweb.com/og-image.svg" />
+  <meta property="og:image:alt" content="LibiWeb API social preview" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{OG_TITLE}}" />
+  <meta name="twitter:description" content="{{OG_DESCRIPTION}}" />
+  <meta name="twitter:image" content="https://api.libiweb.com/og-image.svg" />
+
+  {{HEAD_EXTRA}}
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <header>
-    <h1>libiweb API</h1>
-    <nav>
-      <a href="/docs">Docs</a>
-      <a href="/privacy">Privacy</a>
-      <a href="/security">Security</a>
-      <a href="/terms">Terms</a>
-      <a href="/status">Status</a>
-    </nav>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <div class="shell nav-shell">
+      <a class="brand" href="/" aria-label="LibiWeb API homepage">
+        <span class="brand-mark">&gt;_</span>
+        <span class="brand-text">LibiWeb API</span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/docs"{{NAV_DOCS_ATTR}}>Documentation</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="/status"{{NAV_STATUS_ATTR}}>Status</a>
+        <a class="btn btn-dark" href="/docs">Get Started</a>
+      </nav>
+    </div>
   </header>
-  <main>
-    <p>Base layout placeholder file.</p>
+
+  <main id="main-content">
+    {{CONTENT}}
   </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div>
+        <p class="footer-brand">LibiWeb API</p>
+        <p class="muted">Developer-first API infrastructure for modern web platforms.</p>
+      </div>
+      <div>
+        <p class="footer-title">Product</p>
+        <a href="/docs">Documentation</a>
+        <a href="/status">API Status</a>
+        <a href="/swagger.json">OpenAPI</a>
+      </div>
+      <div>
+        <p class="footer-title">Legal</p>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/security">Security</a>
+      </div>
+    </div>
+    <div class="shell footer-bottom">
+      <small>&copy; {{YEAR}} LibiWeb. All rights reserved.</small>
+    </div>
+  </footer>
 </body>
 </html>

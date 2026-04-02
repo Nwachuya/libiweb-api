@@ -1,38 +1,58 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>libiweb API</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
-      line-height: 1.5;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 4rem 1rem;
-      text-align: center;
-    }
-    a {
-      color: #93c5fd;
-      margin: 0 0.5rem;
-    }
-  </style>
-</head>
-<body>
-  <main class="container">
-    <h1>libiweb API v2</h1>
-    <p>Secure API endpoints with key-based authentication.</p>
-    <p>
-      <a href="/docs">Docs</a>
-      <a href="/swagger.json">OpenAPI</a>
-      <a href="/status">Status</a>
+<section class="hero section">
+  <div class="shell hero-shell">
+    <p class="badge">v2.0 is now live</p>
+    <h1>The API layer for <span>modern</span> web experiences.</h1>
+    <p class="hero-copy">
+      LibiWeb API provides the infrastructure you need to build scalable, secure,
+      and lightning-fast applications without backend overhead.
     </p>
-  </main>
-</body>
-</html>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/docs">Get Started For Free</a>
+      <a class="btn btn-light" href="/swagger.json">View OpenAPI Spec</a>
+    </div>
+    <div class="code-window" aria-label="API request example">
+      <div class="code-top">
+        <span></span><span></span><span></span>
+        <small>bash - curl</small>
+      </div>
+      <pre><code>curl -X GET \
+"https://api.libiweb.com/v2/health" \
+-H "x-api-key: YOUR_API_KEY"</code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="features section alt-bg">
+  <div class="shell">
+    <h2>Built for performance</h2>
+    <p class="section-copy">Everything you need to scale globally with confidence.</p>
+    <div class="grid">
+      <article class="card">
+        <h3>Ultra Low Latency</h3>
+        <p>Edge-aware infrastructure designed to deliver consistent response times.</p>
+      </article>
+      <article class="card">
+        <h3>Enterprise Security</h3>
+        <p>Authentication, headers hardening, and abuse protection by default.</p>
+      </article>
+      <article class="card">
+        <h3>Developer First</h3>
+        <p>Simple endpoints, clear docs, and predictable behavior in production.</p>
+      </article>
+      <article class="card">
+        <h3>Global Scale</h3>
+        <p>Built to support growing workloads and modern distributed systems.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="section">
+  <div class="shell">
+    <div class="cta">
+      <h2>Ready to start building?</h2>
+      <p>Join teams building the future on LibiWeb API.</p>
+      <a class="btn btn-light cta-btn" href="/docs">Create Free Account</a>
+    </div>
+  </div>
+</section>

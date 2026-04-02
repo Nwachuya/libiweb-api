@@ -1,43 +1,17 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Status - libiweb API</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      background: #f5f7fb;
-      color: #1f2937;
-      line-height: 1.5;
-    }
-    .container { max-width: 860px; margin: 0 auto; padding: 2rem 1rem 3rem; }
-    .card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 1.2rem;
-      margin-bottom: 1rem;
-    }
-    h1, h2 { margin-top: 0; }
-    code { background: #eef2ff; padding: 0.15rem 0.35rem; border-radius: 6px; }
-  </style>
-</head>
-<body>
-  <main class="container">
+<section class="page-main">
+  <div class="shell">
     <h1>Service Status</h1>
-    <div class="card">
+    <p class="lead">Public status page with links to live API status endpoints.</p>
+    <div class="panel">
       <h2>Current State</h2>
       <p>Use API endpoints below for live machine-readable status checks.</p>
     </div>
-    <div class="card">
+    <div class="panel">
       <h2>Status Endpoints</h2>
       <ul>
         <li><code>GET /v2/health</code> (requires <code>x-api-key</code>)</li>
         <li><code>GET /v2/status</code> (requires <code>x-api-key</code>)</li>
       </ul>
     </div>
-  </main>
-</body>
-</html>
+  </div>
+</section>

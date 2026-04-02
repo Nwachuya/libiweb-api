@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="LibiWeb API">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a5ba0"/>
+      <stop offset="55%" stop-color="#1086d6"/>
+      <stop offset="100%" stop-color="#21a1e8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="980" cy="120" r="200" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="1120" cy="520" r="220" fill="rgba(255,255,255,0.08)"/>
+  <g fill="#ffffff" font-family="Inter, Arial, sans-serif">
+    <text x="120" y="260" font-size="42" opacity="0.9">LibiWeb API</text>
+    <text x="120" y="340" font-size="76" font-weight="700">The API layer for</text>
+    <text x="120" y="420" font-size="76" font-weight="700">modern web experiences.</text>
+    <text x="120" y="500" font-size="34" opacity="0.9">Secure. Scalable. Developer-first.</text>
+  </g>
+</svg>
