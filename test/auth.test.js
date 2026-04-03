@@ -10,10 +10,15 @@ const ENV_KEYS = [
   "PB_COLLECTION_USERS",
   "PB_COLLECTION_ACCOUNT",
   "PB_COLLECTION_API_KEYS",
+  "PB_COLLECTION_PLANS",
+  "PB_COLLECTION_USAGE_LOGS",
   "PB_REQUIRE_VERIFIED_USER",
   "PB_ALLOWED_API_KEY_STATUS",
   "PB_ALLOWED_SUB_STATUSES",
-  "PB_FAIL_CLOSED"
+  "PB_FAIL_CLOSED",
+  "PB_ENFORCE_ENDPOINT_ALLOWLIST",
+  "PB_ENFORCE_MONTHLY_CREDITS",
+  "PB_CREDIT_CHECK_EXEMPT_ENDPOINTS"
 ];
 
 function clearSrcCache() {
@@ -172,4 +177,112 @@ test("rejects inactive PocketBase API key", async () => {
   assert.equal(result.type, "response");
   assert.equal(result.status, 403);
   assert.equal(result.body.error, "API key is inactive.");
+});
+
+test("rejects when endpoint is not allowed for API key", async () => {
+  const fetchMock = async (url) => {
+    const pathname = new URL(url).pathname;
+    if (pathname === "/api/admins/auth-with-password") {
+      return mockJson(200, { token: "pb-token" });
+    }
+    if (pathname === "/api/collections/api_keys/records") {
+      return mockJson(200, {
+        items: [{
+          id: "k1",
+          key: "pb-key",
+          status: "active",
+          expires: false,
+          account: "acc1",
+          allowed_endpoints_override: ["/v2/metadata"]
+        }]
+      });
+    }
+    if (pathname === "/api/collections/account/records/acc1") {
+      return mockJson(200, { id: "acc1", user: "usr1", role: "user", stripe_sub_status: "active" });
+    }
+    if (pathname === "/api/collections/users/records/usr1") {
+      return mockJson(200, { id: "usr1", verified: true });
+    }
+    return mockJson(404, { error: "Unexpected path" });
+  };
+
+  const auth = loadAuth(
+    {
+      PB_URL: "https://pb.example.com",
+      PB_ADMIN_EMAIL: "admin@example.com",
+      PB_ADMIN_PASSWORD: "secret",
+      PB_ALLOWED_API_KEY_STATUS: "active",
+      PB_FAIL_CLOSED: "true",
+      PB_ENFORCE_ENDPOINT_ALLOWLIST: "true",
+      PB_ENFORCE_MONTHLY_CREDITS: "false"
+    },
+    fetchMock
+  );
+
+  const result = await runMiddleware(auth, {
+    headers: { "x-api-key": "pb-key" },
+    originalUrl: "/v2/crawl",
+    method: "POST"
+  });
+
+  assert.equal(result.type, "response");
+  assert.equal(result.status, 403);
+  assert.match(result.body.error, /Endpoint not allowed/);
+});
+
+test("rejects when monthly credit limit is exceeded", async () => {
+  const fetchMock = async (url) => {
+    const pathname = new URL(url).pathname;
+    if (pathname === "/api/admins/auth-with-password") {
+      return mockJson(200, { token: "pb-token" });
+    }
+    if (pathname === "/api/collections/api_keys/records") {
+      return mockJson(200, {
+        items: [{
+          id: "k1",
+          key: "pb-key",
+          status: "active",
+          expires: false,
+          account: "acc1",
+          monthly_credits_override: 2
+        }]
+      });
+    }
+    if (pathname === "/api/collections/account/records/acc1") {
+      return mockJson(200, { id: "acc1", user: "usr1", role: "user", stripe_sub_status: "active" });
+    }
+    if (pathname === "/api/collections/usage_logs/records") {
+      return mockJson(200, {
+        items: [{ credit_used: 1 }, { credit_used: 1 }],
+        totalPages: 1
+      });
+    }
+    if (pathname === "/api/collections/users/records/usr1") {
+      return mockJson(200, { id: "usr1", verified: true });
+    }
+    return mockJson(404, { error: "Unexpected path" });
+  };
+
+  const auth = loadAuth(
+    {
+      PB_URL: "https://pb.example.com",
+      PB_ADMIN_EMAIL: "admin@example.com",
+      PB_ADMIN_PASSWORD: "secret",
+      PB_ALLOWED_API_KEY_STATUS: "active",
+      PB_FAIL_CLOSED: "true",
+      PB_ENFORCE_MONTHLY_CREDITS: "true",
+      PB_ENFORCE_ENDPOINT_ALLOWLIST: "false"
+    },
+    fetchMock
+  );
+
+  const result = await runMiddleware(auth, {
+    headers: { "x-api-key": "pb-key" },
+    originalUrl: "/v2/crawl",
+    method: "POST"
+  });
+
+  assert.equal(result.type, "response");
+  assert.equal(result.status, 429);
+  assert.equal(result.body.error, "Monthly credit limit exceeded.");
 });

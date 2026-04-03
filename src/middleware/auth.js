@@ -13,12 +13,19 @@ const PB_ADMIN_PASSWORD = process.env.PB_ADMIN_PASSWORD || "";
 const PB_COLLECTION_USERS = (process.env.PB_COLLECTION_USERS || "users").trim();
 const PB_COLLECTION_ACCOUNT = (process.env.PB_COLLECTION_ACCOUNT || "account").trim();
 const PB_COLLECTION_API_KEYS = (process.env.PB_COLLECTION_API_KEYS || "api_keys").trim();
+const PB_COLLECTION_PLANS = (process.env.PB_COLLECTION_PLANS || "plans").trim();
+const PB_COLLECTION_USAGE_LOGS = (process.env.PB_COLLECTION_USAGE_LOGS || "usage_logs").trim();
 
 const PB_REQUIRE_VERIFIED_USER = toBool(process.env.PB_REQUIRE_VERIFIED_USER, true);
 const PB_FAIL_CLOSED = toBool(process.env.PB_FAIL_CLOSED, true);
 const PB_ALLOWED_API_KEY_STATUS = toSet(process.env.PB_ALLOWED_API_KEY_STATUS || "active");
 const PB_ALLOWED_SUB_STATUSES = toSet(process.env.PB_ALLOWED_SUB_STATUSES || "");
 const PB_AUTH_DEBUG = toBool(process.env.PB_AUTH_DEBUG, false);
+const PB_ENFORCE_ENDPOINT_ALLOWLIST = toBool(process.env.PB_ENFORCE_ENDPOINT_ALLOWLIST, true);
+const PB_ENFORCE_MONTHLY_CREDITS = toBool(process.env.PB_ENFORCE_MONTHLY_CREDITS, true);
+const PB_CREDIT_CHECK_EXEMPT_ENDPOINTS = toSet(
+  process.env.PB_CREDIT_CHECK_EXEMPT_ENDPOINTS || "/v2/health,/v2/status,/v2/usage"
+);
 
 const pbSession = {
   token: "",
@@ -61,6 +68,62 @@ function normalizeDate(value) {
 
 function escapeFilterValue(value) {
   return String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+function normalizeEndpoint(req) {
+  let endpoint = String((req && (req.originalUrl || req.url || req.path)) || "").trim();
+  const q = endpoint.indexOf("?");
+  if (q >= 0) endpoint = endpoint.slice(0, q);
+  if (!endpoint.startsWith("/")) endpoint = `/${endpoint}`;
+  if (endpoint.length > 1 && endpoint.endsWith("/")) endpoint = endpoint.slice(0, -1);
+  return endpoint.toLowerCase();
+}
+
+function parseNumberOrNull(value) {
+  if (value == null || value === "") return null;
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || parsed < 0) return null;
+  return parsed;
+}
+
+function normalizeAllowedEndpoints(value) {
+  if (Array.isArray(value)) {
+    return value.map((v) => String(v || "").trim().toLowerCase()).filter(Boolean);
+  }
+
+  if (typeof value === "string" && value.trim()) {
+    const raw = value.trim();
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        return parsed.map((v) => String(v || "").trim().toLowerCase()).filter(Boolean);
+      }
+    } catch {
+      // fallthrough to comma-separated parsing
+    }
+
+    return raw.split(",").map((v) => String(v || "").trim().toLowerCase()).filter(Boolean);
+  }
+
+  return [];
+}
+
+function endpointMatchesRule(endpoint, rule) {
+  if (!rule) return false;
+  if (rule === "*") return true;
+  if (rule.endsWith("*")) {
+    const prefix = rule.slice(0, -1);
+    return endpoint.startsWith(prefix);
+  }
+  if (endpoint === rule) return true;
+  return endpoint.startsWith(`${rule}/`);
+}
+
+function getRequestCreditCost(req) {
+  if (String((req && req.method) || "").toUpperCase() === "OPTIONS") return 0;
+  const endpoint = normalizeEndpoint(req);
+  if (PB_CREDIT_CHECK_EXEMPT_ENDPOINTS.has(endpoint)) return 0;
+  return 1;
 }
 
 async function authenticatePocketBase(forceRefresh) {
@@ -124,7 +187,67 @@ async function pocketBaseRequest(path, options = {}, retry = true) {
   return response.json();
 }
 
-async function validateApiKeyWithPocketBase(apiKey) {
+async function fetchPlanRecord(account) {
+  const planId = getRelationId(account && account.plan);
+  if (!planId) return null;
+
+  return pocketBaseRequest(
+    `/api/collections/${encodeURIComponent(PB_COLLECTION_PLANS)}/records/${encodeURIComponent(planId)}`
+  );
+}
+
+async function getMonthlyUsedCredits(accountId) {
+  const periodStart = new Date();
+  periodStart.setUTCDate(1);
+  periodStart.setUTCHours(0, 0, 0, 0);
+
+  const filter = [
+    `account_id = "${escapeFilterValue(accountId)}"`,
+    `created >= "${periodStart.toISOString()}"`
+  ].join(" && ");
+
+  let page = 1;
+  let total = 0;
+  while (page <= 20) {
+    const search = new URLSearchParams({
+      page: String(page),
+      perPage: "200",
+      filter
+    });
+
+    const payload = await pocketBaseRequest(
+      `/api/collections/${encodeURIComponent(PB_COLLECTION_USAGE_LOGS)}/records?${search.toString()}`
+    );
+
+    const items = Array.isArray(payload && payload.items) ? payload.items : [];
+    for (const item of items) {
+      const used = Number(item && item.credit_used);
+      if (Number.isFinite(used) && used > 0) total += used;
+    }
+
+    const totalPages = Number(payload && payload.totalPages) || 1;
+    if (page >= totalPages) break;
+    page += 1;
+  }
+
+  return total;
+}
+
+function resolveMonthlyCreditLimit(keyRecord, plan) {
+  const keyOverride = parseNumberOrNull(keyRecord && keyRecord.monthly_credits_override);
+  if (keyOverride != null) return keyOverride;
+  const planLimit = parseNumberOrNull(plan && plan.monthly_credits);
+  if (planLimit != null) return planLimit;
+  return null;
+}
+
+function resolveAllowedEndpoints(keyRecord, plan) {
+  const keyOverrides = normalizeAllowedEndpoints(keyRecord && keyRecord.allowed_endpoints_override);
+  if (keyOverrides.length) return keyOverrides;
+  return normalizeAllowedEndpoints(plan && plan.allowed_endpoints);
+}
+
+async function validateApiKeyWithPocketBase(apiKey, req) {
   const filter = `key = "${escapeFilterValue(apiKey)}"`;
   const search = new URLSearchParams({
     page: "1",
@@ -144,6 +267,10 @@ async function validateApiKeyWithPocketBase(apiKey) {
   const keyStatus = String(keyRecord.status || "").toLowerCase();
   if (PB_ALLOWED_API_KEY_STATUS.size && !PB_ALLOWED_API_KEY_STATUS.has(keyStatus)) {
     return { allowed: false, code: 403, error: "API key is inactive." };
+  }
+
+  if (normalizeDate(keyRecord.revoked_at)) {
+    return { allowed: false, code: 403, error: "API key is revoked." };
   }
 
   if (keyRecord.expires === true) {
@@ -169,6 +296,50 @@ async function validateApiKeyWithPocketBase(apiKey) {
     }
   }
 
+  const keyAllowedEndpoints = resolveAllowedEndpoints(keyRecord, null);
+  const keyMonthlyCreditLimit = resolveMonthlyCreditLimit(keyRecord, null);
+  const hasPlanRelation = Boolean(getRelationId(account.plan));
+  const needsPlan = hasPlanRelation
+    && (
+      (PB_ENFORCE_ENDPOINT_ALLOWLIST && !keyAllowedEndpoints.length)
+      || (PB_ENFORCE_MONTHLY_CREDITS && keyMonthlyCreditLimit == null)
+    );
+
+  const plan = needsPlan ? await fetchPlanRecord(account) : null;
+  const requestEndpoint = normalizeEndpoint(req);
+
+  if (PB_ENFORCE_ENDPOINT_ALLOWLIST) {
+    const allowedEndpoints = keyAllowedEndpoints.length
+      ? keyAllowedEndpoints
+      : resolveAllowedEndpoints(null, plan);
+    if (allowedEndpoints.length) {
+      const allowed = allowedEndpoints.some((rule) => endpointMatchesRule(requestEndpoint, rule));
+      if (!allowed) {
+        return {
+          allowed: false,
+          code: 403,
+          error: `Endpoint not allowed for this API key: ${requestEndpoint}`
+        };
+      }
+    }
+  }
+
+  const monthlyCreditLimit = keyMonthlyCreditLimit != null
+    ? keyMonthlyCreditLimit
+    : resolveMonthlyCreditLimit(null, plan);
+  const requestCreditCost = getRequestCreditCost(req);
+  let usedCredits = null;
+  if (PB_ENFORCE_MONTHLY_CREDITS && monthlyCreditLimit != null && requestCreditCost > 0) {
+    usedCredits = await getMonthlyUsedCredits(accountId);
+    if ((usedCredits + requestCreditCost) > monthlyCreditLimit) {
+      return {
+        allowed: false,
+        code: 429,
+        error: "Monthly credit limit exceeded."
+      };
+    }
+  }
+
   const userId = getRelationId(account.user);
   if (!userId) {
     return { allowed: false, code: 403, error: "Account has no linked user." };
@@ -188,7 +359,10 @@ async function validateApiKeyWithPocketBase(apiKey) {
       accountId,
       userId,
       apiKeyId: keyRecord.id,
-      role: account.role || null
+      role: account.role || null,
+      planId: getRelationId(account.plan) || null,
+      monthlyCreditLimit,
+      usedCredits
     }
   };
 }
@@ -218,7 +392,7 @@ module.exports = async function authMiddleware(req, res, next) {
 
   try {
     const result = PB_URL
-      ? await validateApiKeyWithPocketBase(provided)
+      ? await validateApiKeyWithPocketBase(provided, req)
       : validateApiKeyWithStaticList(provided);
 
     if (!result.allowed) {
