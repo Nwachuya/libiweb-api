@@ -42,7 +42,6 @@ async function authenticatePocketBase(env, fetchImpl) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           identity: email,
-          email,
           password
         })
       });

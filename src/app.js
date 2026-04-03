@@ -5,6 +5,7 @@ const rateLimit = require("express-rate-limit");
 const path = require("path");
 
 const authMiddleware = require("./middleware/auth");
+const usageLoggerMiddleware = require("./middleware/usage-logger");
 const healthRouter = require("./routes/health");
 const statusRouter = require("./routes/status");
 const crawlRouter = require("./routes/crawl");
@@ -71,6 +72,7 @@ app.use("/", pagesRouter);
 
 // All /v2/* routes require a valid API key
 app.use("/v2", authMiddleware);
+app.use("/v2", usageLoggerMiddleware);
 
 // Mount route modules
 app.use("/v2/health", healthRouter);

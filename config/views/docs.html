@@ -21,12 +21,21 @@
         <li><code>GET /swagger.json</code> - OpenAPI specification (public).</li>
         <li><code>GET /v2/health</code> - health check (requires API key).</li>
         <li><code>GET /v2/status</code> - runtime status (requires API key).</li>
-        <li><code>POST /v2/crawl</code> - crawl target URL via Crawl4AI (requires API key).</li>
-        <li><code>POST /map</code> - mapped URLs grouped into internal/external from Crawl4AI link map output (requires API key).</li>
-        <li><code>POST /metadata</code> - normalized metadata records from Crawl4AI output (requires API key).</li>
-        <li><code>POST /getmedia</code> - normalized media assets (images/videos/audios) from Crawl4AI output (requires API key).</li>
-        <li><code>POST /v2/metadata</code> - versioned alias for normalized metadata records (requires API key).</li>
-        <li><code>POST /v2/getmedia</code> - versioned alias for normalized media assets (requires API key).</li>
+        <li><code>POST /v2/crawl</code> - crawl and extraction response for target URLs (requires API key).</li>
+        <li><code>POST /v2/map</code> - internal/external link mapping (requires API key).</li>
+        <li><code>POST /v2/metadata</code> - normalized metadata records (requires API key).</li>
+        <li><code>POST /v2/getmedia</code> - normalized media assets (requires API key).</li>
+        <li><code>POST /v2/getmarkdown</code> - normalized markdown output (requires API key).</li>
+        <li><code>POST /v2/gethtml</code> - normalized HTML output (requires API key).</li>
+        <li><code>POST /v2/gettext</code> - plain text extraction (requires API key).</li>
+        <li><code>POST /v2/getseo</code> - SEO-focused extraction (requires API key).</li>
+        <li><code>POST /v2/getemails</code> - email discovery from target and linked pages (requires API key).</li>
+        <li><code>POST /v2/extract</code> - built-in field extraction (requires API key).</li>
+        <li><code>POST /v2/screenshot</code> - screenshot extraction (requires API key).</li>
+        <li><code>POST /v2/bulk</code> - queue bulk crawl job (requires API key).</li>
+        <li><code>GET /v2/bulk/:jobId</code> - bulk job status/result (requires API key).</li>
+        <li><code>GET /v2/usage</code> - usage analytics summary (requires API key).</li>
+        <li><code>POST /v2/webhook/register</code> - register bulk webhook callback (requires API key).</li>
       </ul>
     </section>
 
@@ -44,7 +53,7 @@
 
     <section class="panel">
       <h2>Map Example</h2>
-      <pre>curl -X POST "https://api.libiweb.com/map" \
+      <pre>curl -X POST "https://api.libiweb.com/v2/map" \
   -H "Content-Type: application/json" \
   -H "x-api-key: your-api-key" \
   -d '{"urls":["https://example.com"]}'</pre>
@@ -52,10 +61,6 @@
 
     <section class="panel">
       <h2>Metadata Example</h2>
-      <pre>curl -X POST "https://api.libiweb.com/metadata" \
-  -H "Content-Type: application/json" \
-  -H "x-api-key: your-api-key" \
-  -d '{"urls":["https://example.com"]}'</pre>
       <pre>curl -X POST "https://api.libiweb.com/v2/metadata" \
   -H "Content-Type: application/json" \
   -H "x-api-key: your-api-key" \
@@ -63,10 +68,6 @@
     </section>
     <section class="panel">
       <h2>Get Media Example</h2>
-      <pre>curl -X POST "https://api.libiweb.com/getmedia" \
-  -H "Content-Type: application/json" \
-  -H "x-api-key: your-api-key" \
-  -d '{"urls":["https://example.com"]}'</pre>
       <pre>curl -X POST "https://api.libiweb.com/v2/getmedia" \
   -H "Content-Type: application/json" \
   -H "x-api-key: your-api-key" \
