@@ -82,7 +82,7 @@ function normalizeEndpoint(req) {
 function parseNumberOrNull(value) {
   if (value == null || value === "") return null;
   const parsed = Number(value);
-  if (!Number.isFinite(parsed) || parsed < 0) return null;
+  if (!Number.isFinite(parsed) || parsed <= 0) return null;
   return parsed;
 }
 
@@ -233,14 +233,6 @@ async function getMonthlyUsedCredits(accountId) {
   return total;
 }
 
-function resolveMonthlyCreditLimit(keyRecord, plan) {
-  const keyOverride = parseNumberOrNull(keyRecord && keyRecord.monthly_credits_override);
-  if (keyOverride != null) return keyOverride;
-  const planLimit = parseNumberOrNull(plan && plan.monthly_credits);
-  if (planLimit != null) return planLimit;
-  return null;
-}
-
 function resolveAllowedEndpoints(keyRecord, plan) {
   const keyOverrides = normalizeAllowedEndpoints(keyRecord && keyRecord.allowed_endpoints_override);
   if (keyOverrides.length) return keyOverrides;
@@ -297,15 +289,16 @@ async function validateApiKeyWithPocketBase(apiKey, req) {
   }
 
   const keyAllowedEndpoints = resolveAllowedEndpoints(keyRecord, null);
-  const keyMonthlyCreditLimit = resolveMonthlyCreditLimit(keyRecord, null);
+  const keyMonthlyCreditLimit = parseNumberOrNull(keyRecord && keyRecord.monthly_credits_override);
   const hasPlanRelation = Boolean(getRelationId(account.plan));
   const needsPlan = hasPlanRelation
     && (
       (PB_ENFORCE_ENDPOINT_ALLOWLIST && !keyAllowedEndpoints.length)
-      || (PB_ENFORCE_MONTHLY_CREDITS && keyMonthlyCreditLimit == null)
+      || PB_ENFORCE_MONTHLY_CREDITS
     );
 
   const plan = needsPlan ? await fetchPlanRecord(account) : null;
+  const planMonthlyCreditLimit = parseNumberOrNull(plan && plan.monthly_credits);
   const requestEndpoint = normalizeEndpoint(req);
 
   if (PB_ENFORCE_ENDPOINT_ALLOWLIST) {
@@ -324,14 +317,40 @@ async function validateApiKeyWithPocketBase(apiKey, req) {
     }
   }
 
-  const monthlyCreditLimit = keyMonthlyCreditLimit != null
-    ? keyMonthlyCreditLimit
-    : resolveMonthlyCreditLimit(null, plan);
   const requestCreditCost = getRequestCreditCost(req);
   let usedCredits = null;
-  if (PB_ENFORCE_MONTHLY_CREDITS && monthlyCreditLimit != null && requestCreditCost > 0) {
+  let monthlyCreditLimit = null;
+  const hasAnyCreditLimit = (planMonthlyCreditLimit != null) || (keyMonthlyCreditLimit != null);
+  if (PB_ENFORCE_MONTHLY_CREDITS && requestCreditCost > 0 && hasAnyCreditLimit) {
     usedCredits = await getMonthlyUsedCredits(accountId);
-    if ((usedCredits + requestCreditCost) > monthlyCreditLimit) {
+    const projected = usedCredits + requestCreditCost;
+
+    if (planMonthlyCreditLimit != null) {
+      monthlyCreditLimit = planMonthlyCreditLimit;
+      if (projected > planMonthlyCreditLimit) {
+        // Plan limit is primary. Only if exceeded, check key-level secondary override.
+        if (keyMonthlyCreditLimit != null && projected <= keyMonthlyCreditLimit) {
+          monthlyCreditLimit = keyMonthlyCreditLimit;
+        } else {
+          return {
+            allowed: false,
+            code: 429,
+            error: "Monthly credit limit exceeded."
+          };
+        }
+      }
+    } else if (keyMonthlyCreditLimit != null) {
+      monthlyCreditLimit = keyMonthlyCreditLimit;
+      if (projected > keyMonthlyCreditLimit) {
+        return {
+          allowed: false,
+          code: 429,
+          error: "Monthly credit limit exceeded."
+        };
+      }
+    }
+
+    if (monthlyCreditLimit != null && projected > monthlyCreditLimit) {
       return {
         allowed: false,
         code: 429,

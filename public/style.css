@@ -399,6 +399,97 @@ h1 span {
   overflow-x: auto;
 }
 
+.endpoint-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.endpoint-card {
+  border: 1px solid #dbe3ef;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #fbfdff;
+}
+
+.endpoint-card h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1.1rem;
+}
+
+.endpoint-meta {
+  margin: 0;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.endpoint-desc {
+  margin: 0.6rem 0 0.9rem;
+}
+
+.badge-auth,
+.badge-public {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.badge-auth {
+  color: #0f172a;
+  background: #e2e8f0;
+}
+
+.badge-public {
+  color: #14532d;
+  background: #dcfce7;
+}
+
+.snippet-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.snippet {
+  border: 1px solid #dbe3ef;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.snippet-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid #dbe3ef;
+  background: #f8fafc;
+}
+
+.copy-btn {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 8px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  background: #f1f5f9;
+}
+
+.snippet pre {
+  margin: 0;
+  border-radius: 0;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
 @media (max-width: 920px) {
   .site-nav {
     gap: 0.8rem;

@@ -286,3 +286,70 @@ test("rejects when monthly credit limit is exceeded", async () => {
   assert.equal(result.status, 429);
   assert.equal(result.body.error, "Monthly credit limit exceeded.");
 });
+
+test("uses account plan monthly credits as primary when key override is empty/zero", async () => {
+  const fetchMock = async (url) => {
+    const pathname = new URL(url).pathname;
+    if (pathname === "/api/admins/auth-with-password") {
+      return mockJson(200, { token: "pb-token" });
+    }
+    if (pathname === "/api/collections/api_keys/records") {
+      return mockJson(200, {
+        items: [{
+          id: "k1",
+          key: "pb-key",
+          status: "active",
+          expires: false,
+          account: "acc1",
+          monthly_credits_override: 0
+        }]
+      });
+    }
+    if (pathname === "/api/collections/account/records/acc1") {
+      return mockJson(200, {
+        id: "acc1",
+        user: "usr1",
+        role: "user",
+        stripe_sub_status: "active",
+        plan: "plan1"
+      });
+    }
+    if (pathname === "/api/collections/plans/records/plan1") {
+      return mockJson(200, { id: "plan1", monthly_credits: 5600 });
+    }
+    if (pathname === "/api/collections/usage_logs/records") {
+      return mockJson(200, {
+        items: [{ credit_used: 1 }, { credit_used: 1 }, { credit_used: 1 }],
+        totalPages: 1
+      });
+    }
+    if (pathname === "/api/collections/users/records/usr1") {
+      return mockJson(200, { id: "usr1", verified: true });
+    }
+    return mockJson(404, { error: "Unexpected path" });
+  };
+
+  const auth = loadAuth(
+    {
+      PB_URL: "https://pb.example.com",
+      PB_ADMIN_EMAIL: "admin@example.com",
+      PB_ADMIN_PASSWORD: "secret",
+      PB_ALLOWED_API_KEY_STATUS: "active",
+      PB_FAIL_CLOSED: "true",
+      PB_ENFORCE_MONTHLY_CREDITS: "true",
+      PB_ENFORCE_ENDPOINT_ALLOWLIST: "false"
+    },
+    fetchMock
+  );
+
+  const req = {
+    headers: { "x-api-key": "pb-key" },
+    originalUrl: "/v2/crawl",
+    method: "POST"
+  };
+  const result = await runMiddleware(auth, req);
+
+  assert.equal(result.type, "next");
+  assert.equal(req.auth.monthlyCreditLimit, 5600);
+  assert.equal(req.auth.usedCredits, 3);
+});

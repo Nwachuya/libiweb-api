@@ -1,7 +1,7 @@
 <section class="page-main">
   <div class="shell">
     <h1>API Documentation</h1>
-    <p class="lead">Everything required to authenticate and call LibiWeb API v2 endpoints.</p>
+    <p class="lead">Each endpoint includes JavaScript, Python, cURL, and example response snippets with one-click copy.</p>
 
     <section class="panel">
       <h2>Base URL</h2>
@@ -11,67 +11,567 @@
     <section class="panel">
       <h2>Authentication</h2>
       <p>All <code>/v2/*</code> routes require the <code>x-api-key</code> request header.</p>
-      <pre>x-api-key: your-api-key</pre>
+      <div class="snippet">
+        <div class="snippet-head">
+          <strong>Header</strong>
+          <button class="copy-btn" data-copy-target="auth-header">Copy</button>
+        </div>
+        <pre><code id="auth-header">x-api-key: your-api-key</code></pre>
+      </div>
     </section>
 
     <section class="panel">
-      <h2>Endpoints</h2>
-      <ul>
-        <li><code>GET /api</code> - public service metadata.</li>
-        <li><code>GET /swagger.json</code> - OpenAPI specification (public).</li>
-        <li><code>GET /v2/health</code> - health check (requires API key).</li>
-        <li><code>GET /v2/status</code> - runtime status (requires API key).</li>
-        <li><code>POST /v2/crawl</code> - crawl and extraction response for target URLs (requires API key).</li>
-        <li><code>POST /v2/map</code> - internal/external link mapping (requires API key).</li>
-        <li><code>POST /v2/metadata</code> - normalized metadata records (requires API key).</li>
-        <li><code>POST /v2/getmedia</code> - normalized media assets (requires API key).</li>
-        <li><code>POST /v2/getmarkdown</code> - normalized markdown output (requires API key).</li>
-        <li><code>POST /v2/gethtml</code> - normalized HTML output (requires API key).</li>
-        <li><code>POST /v2/gettext</code> - plain text extraction (requires API key).</li>
-        <li><code>POST /v2/getseo</code> - SEO-focused extraction (requires API key).</li>
-        <li><code>POST /v2/getemails</code> - email discovery from target and linked pages (requires API key).</li>
-        <li><code>POST /v2/extract</code> - built-in field extraction (requires API key).</li>
-        <li><code>POST /v2/screenshot</code> - screenshot extraction (requires API key).</li>
-        <li><code>POST /v2/bulk</code> - queue bulk crawl job (requires API key).</li>
-        <li><code>GET /v2/bulk/:jobId</code> - bulk job status/result (requires API key).</li>
-        <li><code>GET /v2/usage</code> - usage analytics summary (requires API key).</li>
-        <li><code>POST /v2/webhook/register</code> - register bulk webhook callback (requires API key).</li>
-      </ul>
-    </section>
-
-    <section class="panel">
-      <h2>Example</h2>
-      <pre>curl -H "x-api-key: your-api-key" https://api.libiweb.com/v2/health</pre>
-    </section>
-    <section class="panel">
-      <h2>Crawl Example</h2>
-      <pre>curl -X POST "https://api.libiweb.com/v2/crawl" \
-  -H "Content-Type: application/json" \
-  -H "x-api-key: your-api-key" \
-  -d '{"urls":["https://example.com"],"formats":["markdown"]}'</pre>
-    </section>
-
-    <section class="panel">
-      <h2>Map Example</h2>
-      <pre>curl -X POST "https://api.libiweb.com/v2/map" \
-  -H "Content-Type: application/json" \
-  -H "x-api-key: your-api-key" \
-  -d '{"urls":["https://example.com"]}'</pre>
-    </section>
-
-    <section class="panel">
-      <h2>Metadata Example</h2>
-      <pre>curl -X POST "https://api.libiweb.com/v2/metadata" \
-  -H "Content-Type: application/json" \
-  -H "x-api-key: your-api-key" \
-  -d '{"urls":["https://example.com"]}'</pre>
-    </section>
-    <section class="panel">
-      <h2>Get Media Example</h2>
-      <pre>curl -X POST "https://api.libiweb.com/v2/getmedia" \
-  -H "Content-Type: application/json" \
-  -H "x-api-key: your-api-key" \
-  -d '{"urls":["https://example.com"]}'</pre>
+      <h2>Endpoint Reference</h2>
+      <div id="endpoint-docs" class="endpoint-grid"></div>
     </section>
   </div>
 </section>
+
+<script>
+(() => {
+  const BASE_URL = "https://api.libiweb.com";
+
+  const endpoints = [
+    {
+      title: "Public API Metadata",
+      method: "GET",
+      path: "/api",
+      auth: false,
+      description: "Public service metadata.",
+      response: {
+        name: "libiweb API",
+        version: "v2",
+        docs: "/swagger.json",
+        status: "online"
+      }
+    },
+    {
+      title: "OpenAPI Document",
+      method: "GET",
+      path: "/swagger.json",
+      auth: false,
+      description: "OpenAPI specification for this API.",
+      response: {
+        openapi: "3.0.3",
+        info: { title: "libiweb API", version: "2.0.0" },
+        paths: { "/v2/health": { get: { summary: "Health check endpoint" } } }
+      }
+    },
+    {
+      title: "Health Check",
+      method: "GET",
+      path: "/v2/health",
+      auth: true,
+      description: "Service health, uptime, and version.",
+      response: {
+        status: "ok",
+        uptime: 3600,
+        timestamp: "2026-04-03T10:00:00.000Z",
+        version: "v2"
+      }
+    },
+    {
+      title: "Runtime Status",
+      method: "GET",
+      path: "/v2/status",
+      auth: true,
+      description: "Service status with uptime details.",
+      response: {
+        status: "online",
+        service: "libiweb-api",
+        version: "v2",
+        uptime: 3600,
+        timestamp: "2026-04-03T10:00:00.000Z"
+      }
+    },
+    {
+      title: "Crawl",
+      method: "POST",
+      path: "/v2/crawl",
+      auth: true,
+      description: "Run crawl for one or more target URLs.",
+      body: {
+        urls: ["https://example.com"],
+        formats: ["markdown", "html"]
+      },
+      response: {
+        success: true,
+        results: [
+          {
+            url: "https://example.com",
+            status_code: 200,
+            success: true,
+            markdown: { raw_markdown: "# Example Domain" }
+          }
+        ]
+      }
+    },
+    {
+      title: "Map",
+      method: "POST",
+      path: "/v2/map",
+      auth: true,
+      description: "Internal/external link mapping.",
+      body: {
+        urls: ["https://example.com"]
+      },
+      response: {
+        target: "https://example.com",
+        counts: { total: 2, internal: 1, external: 1 },
+        internal: ["https://example.com/about"],
+        external: ["https://external-site.com/page"],
+        all: ["https://example.com/about", "https://external-site.com/page"]
+      }
+    },
+    {
+      title: "Metadata",
+      method: "POST",
+      path: "/v2/metadata",
+      auth: true,
+      description: "Normalized metadata records.",
+      body: {
+        urls: ["https://example.com"]
+      },
+      response: {
+        count: 1,
+        items: [
+          {
+            url: "https://example.com",
+            redirected_url: "https://www.example.com",
+            success: true,
+            status_code: 200,
+            metadata: {
+              title: "Example Domain",
+              description: "Example description"
+            }
+          }
+        ]
+      }
+    },
+    {
+      title: "Get Media",
+      method: "POST",
+      path: "/v2/getmedia",
+      auth: true,
+      description: "Normalized image/video/audio assets.",
+      body: {
+        urls: ["https://example.com"]
+      },
+      response: {
+        target: "https://example.com",
+        counts: { total: 2, images: 1, videos: 1, audios: 0 },
+        images: [{ src: "https://example.com/image.jpg", type: "image", alt: "Hero image" }],
+        videos: [{ src: "https://cdn.example.com/video.mp4", type: "video", format: "mp4" }],
+        audios: [],
+        all: [
+          { src: "https://example.com/image.jpg", type: "image", alt: "Hero image" },
+          { src: "https://cdn.example.com/video.mp4", type: "video", format: "mp4" }
+        ]
+      }
+    },
+    {
+      title: "Get Markdown",
+      method: "POST",
+      path: "/v2/getmarkdown",
+      auth: true,
+      description: "Normalized markdown output.",
+      body: {
+        urls: ["https://example.com"]
+      },
+      response: {
+        count: 1,
+        total_characters: 1280,
+        items: [
+          {
+            url: "https://example.com",
+            redirected_url: "https://www.example.com",
+            success: true,
+            status_code: 200,
+            markdown: "# Example Domain",
+            markdown_with_citations: "# Example Domain [1]"
+          }
+        ]
+      }
+    },
+    {
+      title: "Get HTML",
+      method: "POST",
+      path: "/v2/gethtml",
+      auth: true,
+      description: "Normalized HTML output.",
+      body: {
+        urls: ["https://example.com"]
+      },
+      response: {
+        count: 1,
+        total_characters: 5421,
+        items: [
+          {
+            url: "https://example.com",
+            redirected_url: null,
+            success: true,
+            status_code: 200,
+            html: "<html><body>Hello</body></html>"
+          }
+        ]
+      }
+    },
+    {
+      title: "Get Text",
+      method: "POST",
+      path: "/v2/gettext",
+      auth: true,
+      description: "Plain text extraction.",
+      body: {
+        urls: ["https://example.com"]
+      },
+      response: {
+        count: 1,
+        total_characters: 640,
+        items: [
+          {
+            url: "https://example.com",
+            redirected_url: null,
+            success: true,
+            status_code: 200,
+            text: "Example domain plain text content..."
+          }
+        ]
+      }
+    },
+    {
+      title: "Get SEO",
+      method: "POST",
+      path: "/v2/getseo",
+      auth: true,
+      description: "SEO-focused extraction.",
+      body: {
+        urls: ["https://example.com"]
+      },
+      response: {
+        count: 1,
+        items: [
+          {
+            url: "https://example.com",
+            redirected_url: null,
+            success: true,
+            status_code: 200,
+            seo: {
+              title: "Example Domain",
+              description: "Example description",
+              robots: "index,follow",
+              canonical: "https://example.com",
+              og: { title: "Example OG Title", description: "", image: "", url: "", type: "website" },
+              twitter: { card: "summary_large_image", title: "", description: "", image: "" }
+            }
+          }
+        ]
+      }
+    },
+    {
+      title: "Get Emails",
+      method: "POST",
+      path: "/v2/getemails",
+      auth: true,
+      description: "Email discovery from target and linked pages.",
+      body: {
+        url: "https://example.com",
+        max_pages: 10
+      },
+      response: {
+        target: "https://example.com",
+        counts: { pages_scanned: 3, candidate_pages: 2, emails_found: 2 },
+        scanned_pages: ["https://example.com", "https://example.com/contact", "https://example.com/about"],
+        emails: [
+          { email: "hello@example.com", sources: ["https://example.com/contact"] },
+          { email: "team@example.com", sources: ["https://example.com/about"] }
+        ]
+      }
+    },
+    {
+      title: "Extract Fields",
+      method: "POST",
+      path: "/v2/extract",
+      auth: true,
+      description: "Built-in extraction for emails/phones/urls.",
+      body: {
+        urls: ["https://example.com"],
+        fields: ["emails", "phones", "urls"]
+      },
+      response: {
+        fields: ["emails", "phones", "urls"],
+        count: 1,
+        items: [
+          {
+            url: "https://example.com",
+            redirected_url: null,
+            success: true,
+            status_code: 200,
+            extracted: {
+              emails: ["team@example.com"],
+              phones: ["+1 415 555 0123"],
+              urls: ["https://example.com/about"]
+            }
+          }
+        ]
+      }
+    },
+    {
+      title: "Screenshot",
+      method: "POST",
+      path: "/v2/screenshot",
+      auth: true,
+      description: "Screenshot extraction records.",
+      body: {
+        urls: ["https://example.com"],
+        screenshot: true
+      },
+      response: {
+        count: 1,
+        items: [
+          {
+            url: "https://example.com",
+            redirected_url: null,
+            success: true,
+            status_code: 200,
+            screenshot: { url: "https://cdn.example.com/screenshot.png" }
+          }
+        ]
+      }
+    },
+    {
+      title: "Bulk Job Create",
+      method: "POST",
+      path: "/v2/bulk",
+      auth: true,
+      description: "Queue a bulk job.",
+      body: {
+        urls: ["https://example.com/a", "https://example.com/b"]
+      },
+      response: {
+        job_id: "job_m8bsl18f_a1b2c3d4",
+        status: "queued",
+        count: 2
+      }
+    },
+    {
+      title: "Bulk Job Status",
+      method: "GET",
+      path: "/v2/bulk/:jobId",
+      requestPath: "/v2/bulk/job_m8bsl18f_a1b2c3d4",
+      auth: true,
+      description: "Read queued/processing/completed bulk job state.",
+      response: {
+        job_id: "job_m8bsl18f_a1b2c3d4",
+        status: "completed",
+        created_at: "2026-04-03T10:00:00.000Z",
+        updated_at: "2026-04-03T10:00:05.000Z",
+        urls: ["https://example.com/a", "https://example.com/b"],
+        result: {
+          count: 2,
+          items: [
+            { url: "https://example.com/a", redirected_url: null, success: true, status_code: 200 },
+            { url: "https://example.com/b", redirected_url: null, success: false, status_code: 500 }
+          ]
+        },
+        error: null
+      }
+    },
+    {
+      title: "Usage Summary",
+      method: "GET",
+      path: "/v2/usage",
+      query: "period=2026-04&scope=key",
+      auth: true,
+      description: "Aggregated usage for API key or account scope.",
+      response: {
+        period: "2026-04",
+        scope: "key",
+        total_requests: 12,
+        total_credits: 10,
+        endpoints: [
+          { endpoint: "/v2/crawl", requests: 5, credits: 5 },
+          { endpoint: "/v2/getseo", requests: 3, credits: 3 }
+        ],
+        status_codes: { "200": 11, "429": 1 }
+      }
+    },
+    {
+      title: "Webhook Register",
+      method: "POST",
+      path: "/v2/webhook/register",
+      auth: true,
+      description: "Register callback URL for bulk events.",
+      body: {
+        url: "https://hooks.example.com/libiweb",
+        secret: "abc123",
+        events: ["bulk.completed", "bulk.failed"]
+      },
+      response: {
+        owner: "key:your-api-key",
+        webhook: {
+          url: "https://hooks.example.com/libiweb",
+          events: ["bulk.completed", "bulk.failed"],
+          updated_at: "2026-04-03T10:00:00.000Z"
+        }
+      }
+    }
+  ];
+
+  function endpointUrl(def) {
+    const path = def.requestPath || def.path;
+    const query = def.query ? `?${def.query}` : "";
+    return `${BASE_URL}${path}${query}`;
+  }
+
+  function prettyJson(value) {
+    return JSON.stringify(value, null, 2);
+  }
+
+  function jsSnippet(def) {
+    const url = endpointUrl(def);
+    const lines = [];
+    lines.push(`const url = "${url}";`);
+    lines.push("");
+    lines.push("const response = await fetch(url, {");
+    lines.push(`  method: "${def.method}",`);
+    lines.push("  headers: {");
+    if (def.auth) lines.push('    "x-api-key": "your-api-key",');
+    if (def.body) lines.push('    "Content-Type": "application/json",');
+    lines.push("  },");
+    if (def.body) {
+      lines.push(`  body: JSON.stringify(${prettyJson(def.body).replace(/\n/g, "\n  ")}),`);
+    }
+    lines.push("});");
+    lines.push("");
+    lines.push("const data = await response.json();");
+    lines.push("console.log(data);");
+    return lines.join("\n");
+  }
+
+  function pySnippet(def) {
+    const url = endpointUrl(def);
+    const lines = [];
+    lines.push("import requests");
+    lines.push("");
+    lines.push(`url = "${url}"`);
+    lines.push("headers = {");
+    if (def.auth) lines.push('    "x-api-key": "your-api-key",');
+    if (def.body) lines.push('    "Content-Type": "application/json",');
+    lines.push("}");
+    lines.push("");
+    if (def.body) {
+      lines.push(`payload = ${prettyJson(def.body).replace(/true/g, "True").replace(/false/g, "False").replace(/null/g, "None")}`);
+      lines.push(`response = requests.${def.method.toLowerCase()}(url, headers=headers, json=payload, timeout=30)`);
+    } else {
+      lines.push(`response = requests.${def.method.toLowerCase()}(url, headers=headers, timeout=30)`);
+    }
+    lines.push("data = response.json()");
+    lines.push("print(data)");
+    return lines.join("\n");
+  }
+
+  function curlSnippet(def) {
+    const url = endpointUrl(def);
+    const lines = [];
+    lines.push(`curl -X ${def.method} "${url}" \\`);
+    if (def.auth) lines.push('  -H "x-api-key: your-api-key" \\');
+    if (def.body) lines.push('  -H "Content-Type: application/json" \\');
+    if (def.body) lines.push(`  -d '${JSON.stringify(def.body)}'`);
+    else lines[lines.length - 1] = lines[lines.length - 1].replace(/ \\\\$/, "");
+    return lines.join("\n");
+  }
+
+  function createSnippetCard(lang, id, code) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "snippet";
+
+    const head = document.createElement("div");
+    head.className = "snippet-head";
+
+    const label = document.createElement("strong");
+    label.textContent = lang;
+
+    const btn = document.createElement("button");
+    btn.className = "copy-btn";
+    btn.type = "button";
+    btn.dataset.copyTarget = id;
+    btn.textContent = "Copy";
+
+    head.appendChild(label);
+    head.appendChild(btn);
+
+    const pre = document.createElement("pre");
+    const codeEl = document.createElement("code");
+    codeEl.id = id;
+    codeEl.textContent = code;
+    pre.appendChild(codeEl);
+
+    wrapper.appendChild(head);
+    wrapper.appendChild(pre);
+    return wrapper;
+  }
+
+  function renderEndpoints() {
+    const mount = document.getElementById("endpoint-docs");
+    if (!mount) return;
+
+    endpoints.forEach((def, index) => {
+      const article = document.createElement("article");
+      article.className = "endpoint-card";
+
+      const h3 = document.createElement("h3");
+      h3.textContent = def.title;
+
+      const meta = document.createElement("p");
+      meta.className = "endpoint-meta";
+      meta.innerHTML = `<code>${def.method}</code> <code>${def.path}</code>${def.auth ? ' <span class="badge-auth">API Key</span>' : ' <span class="badge-public">Public</span>'}`;
+
+      const desc = document.createElement("p");
+      desc.className = "endpoint-desc";
+      desc.textContent = def.description;
+
+      const snippets = document.createElement("div");
+      snippets.className = "snippet-grid";
+
+      snippets.appendChild(createSnippetCard("JavaScript", `ep-${index}-js`, jsSnippet(def)));
+      snippets.appendChild(createSnippetCard("Python", `ep-${index}-py`, pySnippet(def)));
+      snippets.appendChild(createSnippetCard("cURL", `ep-${index}-curl`, curlSnippet(def)));
+      snippets.appendChild(createSnippetCard("Response", `ep-${index}-res`, prettyJson(def.response)));
+
+      article.appendChild(h3);
+      article.appendChild(meta);
+      article.appendChild(desc);
+      article.appendChild(snippets);
+      mount.appendChild(article);
+    });
+  }
+
+  async function copyCode(targetId, button) {
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    const text = el.textContent || "";
+
+    try {
+      await navigator.clipboard.writeText(text);
+      const prev = button.textContent;
+      button.textContent = "Copied";
+      setTimeout(() => { button.textContent = prev; }, 1200);
+    } catch {
+      const prev = button.textContent;
+      button.textContent = "Failed";
+      setTimeout(() => { button.textContent = prev; }, 1200);
+    }
+  }
+
+  renderEndpoints();
+
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest(".copy-btn");
+    if (!button) return;
+    const targetId = button.dataset.copyTarget;
+    if (!targetId) return;
+    copyCode(targetId, button);
+  });
+})();
+</script>
