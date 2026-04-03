@@ -12,6 +12,15 @@ const mapRouter = require("./routes/map");
 const metadataRouter = require("./routes/metadata");
 const getMediaRouter = require("./routes/getmedia");
 const getMarkdownRouter = require("./routes/getmarkdown");
+const getHtmlRouter = require("./routes/gethtml");
+const getTextRouter = require("./routes/gettext");
+const getSeoRouter = require("./routes/getseo");
+const extractRouter = require("./routes/extract");
+const screenshotRouter = require("./routes/screenshot");
+const getEmailsRouter = require("./routes/getemails");
+const bulkRouter = require("./routes/bulk");
+const usageRouter = require("./routes/usage");
+const webhookRouter = require("./routes/webhook");
 const pagesRouter = require("./routes/pages");
 const swaggerRoute = require("../pages/swagger");
 
@@ -67,15 +76,19 @@ app.use("/v2", authMiddleware);
 app.use("/v2/health", healthRouter);
 app.use("/v2/status", statusRouter);
 app.use("/v2/crawl", crawlRouter);
+app.use("/v2/map", mapRouter);
 app.use("/v2/metadata", metadataRouter);
 app.use("/v2/getmedia", getMediaRouter);
 app.use("/v2/getmarkdown", getMarkdownRouter);
-
-// Also expose as /map (still protected)
-app.use("/map", authMiddleware, mapRouter);
-app.use("/metadata", authMiddleware, metadataRouter);
-app.use("/getmedia", authMiddleware, getMediaRouter);
-app.use("/getmarkdown", authMiddleware, getMarkdownRouter);
+app.use("/v2/gethtml", getHtmlRouter);
+app.use("/v2/gettext", getTextRouter);
+app.use("/v2/getseo", getSeoRouter);
+app.use("/v2/getemails", getEmailsRouter);
+app.use("/v2/extract", extractRouter);
+app.use("/v2/screenshot", screenshotRouter);
+app.use("/v2/bulk", bulkRouter);
+app.use("/v2/usage", usageRouter);
+app.use("/v2/webhook", webhookRouter);
 
 // 404 handler
 app.use((req, res) => {

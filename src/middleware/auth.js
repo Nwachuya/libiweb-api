@@ -18,6 +18,7 @@ const PB_REQUIRE_VERIFIED_USER = toBool(process.env.PB_REQUIRE_VERIFIED_USER, tr
 const PB_FAIL_CLOSED = toBool(process.env.PB_FAIL_CLOSED, true);
 const PB_ALLOWED_API_KEY_STATUS = toSet(process.env.PB_ALLOWED_API_KEY_STATUS || "active");
 const PB_ALLOWED_SUB_STATUSES = toSet(process.env.PB_ALLOWED_SUB_STATUSES || "");
+const PB_AUTH_DEBUG = toBool(process.env.PB_AUTH_DEBUG, false);
 
 const pbSession = {
   token: "",
@@ -78,7 +79,6 @@ async function authenticatePocketBase(forceRefresh) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           identity: PB_ADMIN_EMAIL,
-          email: PB_ADMIN_EMAIL,
           password: PB_ADMIN_PASSWORD
         })
       });
@@ -240,7 +240,8 @@ module.exports = async function authMiddleware(req, res, next) {
     if (PB_FAIL_CLOSED) {
       return res.status(503).json({
         status: 503,
-        error: "Authentication service unavailable."
+        error: "Authentication service unavailable.",
+        ...(PB_AUTH_DEBUG ? { details: err.message } : {})
       });
     }
 

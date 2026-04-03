@@ -1,0 +1,306 @@
+{
+  "updates": [
+    {
+      "collection": "account",
+      "collection_id": "pbc_3966052686",
+      "add_fields": [
+        {
+          "name": "plan",
+          "type": "relation",
+          "collectionId": "pbc_4263585338",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "cascadeDelete": false
+        },
+        {
+          "name": "quota_reset_at",
+          "type": "date",
+          "required": false,
+          "min": "",
+          "max": ""
+        }
+      ],
+      "add_indexes": [
+        "CREATE INDEX idx_account_plan ON account (plan);"
+      ]
+    },
+    {
+      "collection": "api_keys",
+      "collection_id": "pbc_3577178630",
+      "add_fields": [
+        {
+          "name": "key_hash",
+          "type": "text",
+          "required": false,
+          "min": 0,
+          "max": 128,
+          "pattern": ""
+        },
+        {
+          "name": "rate_limit_rpm_override",
+          "type": "number",
+          "required": false,
+          "onlyInt": true,
+          "min": 0,
+          "max": null
+        },
+        {
+          "name": "monthly_credits_override",
+          "type": "number",
+          "required": false,
+          "onlyInt": true,
+          "min": 0,
+          "max": null
+        },
+        {
+          "name": "allowed_endpoints_override",
+          "type": "json",
+          "required": false,
+          "maxSize": 0
+        },
+        {
+          "name": "last_used_at",
+          "type": "date",
+          "required": false,
+          "min": "",
+          "max": ""
+        },
+        {
+          "name": "revoked_at",
+          "type": "date",
+          "required": false,
+          "min": "",
+          "max": ""
+        }
+      ],
+      "add_indexes": [
+        "CREATE UNIQUE INDEX idx_api_keys_key_hash ON api_keys (key_hash) WHERE key_hash != '';",
+        "CREATE INDEX idx_api_keys_account_status ON api_keys (account, status);"
+      ]
+    },
+    {
+      "collection": "plans",
+      "collection_id": "pbc_4263585338",
+      "add_fields": [
+        {
+          "name": "rate_limit_rpm",
+          "type": "number",
+          "required": false,
+          "onlyInt": true,
+          "min": 0,
+          "max": null
+        },
+        {
+          "name": "monthly_credits",
+          "type": "number",
+          "required": false,
+          "onlyInt": true,
+          "min": 0,
+          "max": null
+        },
+        {
+          "name": "allowed_endpoints",
+          "type": "json",
+          "required": false,
+          "maxSize": 0
+        }
+      ],
+      "add_indexes": [
+        "CREATE UNIQUE INDEX idx_plans_name_unique ON plans (name) WHERE name != '';",
+        "CREATE UNIQUE INDEX idx_plans_price_id_unique ON plans (price_id) WHERE price_id != '';"
+      ]
+    },
+    {
+      "collection": "usage_logs",
+      "collection_id": "pbc_2778064087",
+      "add_fields": [
+        {
+          "name": "api_key_id",
+          "type": "relation",
+          "collectionId": "pbc_3577178630",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "cascadeDelete": false
+        },
+        {
+          "name": "account",
+          "type": "relation",
+          "collectionId": "pbc_3966052686",
+          "required": false,
+          "minSelect": 0,
+          "maxSelect": 1,
+          "cascadeDelete": false
+        },
+        {
+          "name": "status_code",
+          "type": "number",
+          "required": false,
+          "onlyInt": true,
+          "min": 100,
+          "max": 599
+        },
+        {
+          "name": "request_units",
+          "type": "number",
+          "required": false,
+          "onlyInt": true,
+          "min": 0,
+          "max": null
+        },
+        {
+          "name": "latency_ms",
+          "type": "number",
+          "required": false,
+          "onlyInt": true,
+          "min": 0,
+          "max": null
+        },
+        {
+          "name": "request_id",
+          "type": "text",
+          "required": false,
+          "min": 0,
+          "max": 80,
+          "pattern": ""
+        }
+      ],
+      "add_indexes": [
+        "CREATE INDEX idx_usage_logs_api_key_id_created ON usage_logs (api_key_id, created);",
+        "CREATE INDEX idx_usage_logs_account_created ON usage_logs (account, created);",
+        "CREATE INDEX idx_usage_logs_endpoint_created ON usage_logs (endpoint, created);",
+        "CREATE INDEX idx_usage_logs_request_id ON usage_logs (request_id);"
+      ]
+    }
+  ],
+  "new_collections": [
+    {
+      "name": "usage_counters",
+      "type": "base",
+      "listRule": null,
+      "viewRule": null,
+      "createRule": null,
+      "updateRule": null,
+      "deleteRule": null,
+      "fields": [
+        {
+          "autogeneratePattern": "[a-z0-9]{15}",
+          "hidden": false,
+          "id": "text3208210256",
+          "max": 15,
+          "min": 15,
+          "name": "id",
+          "pattern": "^[a-z0-9]+$",
+          "presentable": false,
+          "primaryKey": true,
+          "required": true,
+          "system": true,
+          "type": "text"
+        },
+        {
+          "cascadeDelete": false,
+          "collectionId": "pbc_3577178630",
+          "hidden": false,
+          "id": "relation1010101001",
+          "maxSelect": 1,
+          "minSelect": 1,
+          "name": "api_key_id",
+          "presentable": false,
+          "required": true,
+          "system": false,
+          "type": "relation"
+        },
+        {
+          "cascadeDelete": false,
+          "collectionId": "pbc_3966052686",
+          "hidden": false,
+          "id": "relation1010101002",
+          "maxSelect": 1,
+          "minSelect": 1,
+          "name": "account",
+          "presentable": false,
+          "required": true,
+          "system": false,
+          "type": "relation"
+        },
+        {
+          "autogeneratePattern": "",
+          "hidden": false,
+          "id": "text1010101003",
+          "max": 7,
+          "min": 7,
+          "name": "period",
+          "pattern": "^[0-9]{4}-[0-9]{2}$",
+          "presentable": false,
+          "primaryKey": false,
+          "required": true,
+          "system": false,
+          "type": "text"
+        },
+        {
+          "autogeneratePattern": "",
+          "hidden": false,
+          "id": "text1010101004",
+          "max": 120,
+          "min": 0,
+          "name": "endpoint",
+          "pattern": "",
+          "presentable": false,
+          "primaryKey": false,
+          "required": false,
+          "system": false,
+          "type": "text"
+        },
+        {
+          "hidden": false,
+          "id": "number1010101005",
+          "max": null,
+          "min": 0,
+          "name": "used_units",
+          "onlyInt": true,
+          "presentable": false,
+          "required": true,
+          "system": false,
+          "type": "number"
+        },
+        {
+          "hidden": false,
+          "id": "date1010101006",
+          "max": "",
+          "min": "",
+          "name": "updated_at",
+          "presentable": false,
+          "required": false,
+          "system": false,
+          "type": "date"
+        },
+        {
+          "hidden": false,
+          "id": "autodate2990389176",
+          "name": "created",
+          "onCreate": true,
+          "onUpdate": false,
+          "presentable": false,
+          "system": false,
+          "type": "autodate"
+        },
+        {
+          "hidden": false,
+          "id": "autodate3332085495",
+          "name": "updated",
+          "onCreate": true,
+          "onUpdate": true,
+          "presentable": false,
+          "system": false,
+          "type": "autodate"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX idx_usage_counters_unique ON usage_counters (api_key_id, period, endpoint);",
+        "CREATE INDEX idx_usage_counters_account_period ON usage_counters (account, period);"
+      ],
+      "system": false
+    }
+  ]
+}
