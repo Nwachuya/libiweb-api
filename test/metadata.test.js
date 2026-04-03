@@ -82,6 +82,32 @@ test("returns normalized metadata items from nested crawl response", async () =>
   });
 });
 
+test("accepts wrapped Crawl4AI results payload", async () => {
+  const handler = createMetadataHandler({
+    env: { CRAWL4AI_BASE_URL: "http://crawl.example", CRAWL4AI_METADATA_PATH: "/crawl" },
+    fetchImpl: async () => mockJsonResponse(200, {
+      success: true,
+      results: [{
+        url: "https://example.com",
+        redirected_url: "https://www.example.com",
+        success: true,
+        status_code: 200,
+        metadata: {
+          title: "Example Domain"
+        }
+      }]
+    })
+  });
+
+  const res = createResponseRecorder();
+  await handler({ body: { url: "https://example.com" } }, res);
+
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.count, 1);
+  assert.equal(res.body.items[0].url, "https://example.com");
+  assert.equal(res.body.items[0].metadata.title, "Example Domain");
+});
+
 test("returns 502 when response does not contain crawl result records", async () => {
   const handler = createMetadataHandler({
     env: { CRAWL4AI_BASE_URL: "http://crawl.example" },

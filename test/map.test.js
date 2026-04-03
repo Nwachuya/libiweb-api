@@ -77,6 +77,34 @@ test("returns mapped urls grouped by internal and external", async () => {
   assert.deepEqual(JSON.parse(capturedBody), { urls: ["https://example.com"] });
 });
 
+test("accepts wrapped Crawl4AI results payload", async () => {
+  const handler = createMapHandler({
+    env: {
+      CRAWL4AI_BASE_URL: "http://crawl.example",
+      CRAWL4AI_MAP_PATH: "/crawl"
+    },
+    fetchImpl: async () =>
+      mockJsonResponse(200, {
+        success: true,
+        results: [{
+          url: "https://example.com",
+          links: {
+            internal: [{ href: "https://example.com/a" }],
+            external: [{ href: "https://other.com/x" }]
+          }
+        }]
+      })
+  });
+
+  const res = createResponseRecorder();
+  await handler({ body: { url: "https://example.com" } }, res);
+
+  assert.equal(res.statusCode, 200);
+  assert.deepEqual(res.body.counts, { total: 2, internal: 1, external: 1 });
+  assert.deepEqual(res.body.internal, ["https://example.com/a"]);
+  assert.deepEqual(res.body.external, ["https://other.com/x"]);
+});
+
 test("returns 502 when response does not include Crawl4AI link maps", async () => {
   const handler = createMapHandler({
     env: {

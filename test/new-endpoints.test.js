@@ -43,12 +43,15 @@ function mockJsonResponse(status, body) {
 test("gethtml returns normalized html content", async () => {
   const handler = createGetHtmlHandler({
     env: { CRAWL4AI_BASE_URL: "http://crawl.example" },
-    fetchImpl: async () => mockJsonResponse(200, [[{
-      url: "https://example.com",
-      html: "<html><body>Hello</body></html>",
-      status_code: 200,
-      success: true
-    }]])
+    fetchImpl: async () => mockJsonResponse(200, {
+      success: true,
+      results: [{
+        url: "https://example.com",
+        html: "<html><body>Hello</body></html>",
+        status_code: 200,
+        success: true
+      }]
+    })
   });
 
   const res = createResponseRecorder();

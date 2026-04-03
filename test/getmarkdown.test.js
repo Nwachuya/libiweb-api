@@ -83,6 +83,30 @@ test("returns normalized markdown items from nested crawl response", async () =>
   });
 });
 
+test("accepts wrapped Crawl4AI results payload", async () => {
+  const handler = createGetMarkdownHandler({
+    env: { CRAWL4AI_BASE_URL: "http://crawl.example", CRAWL4AI_GETMARKDOWN_PATH: "/crawl" },
+    fetchImpl: async () => mockJsonResponse(200, {
+      success: true,
+      results: [{
+        url: "https://example.com",
+        success: true,
+        status_code: 200,
+        markdown: {
+          raw_markdown: "# Wrapped"
+        }
+      }]
+    })
+  });
+
+  const res = createResponseRecorder();
+  await handler({ body: { url: "https://example.com" } }, res);
+
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.count, 1);
+  assert.equal(res.body.items[0].markdown, "# Wrapped");
+});
+
 test("falls back to markdown_with_citations when raw_markdown is empty", async () => {
   const handler = createGetMarkdownHandler({
     env: { CRAWL4AI_BASE_URL: "http://crawl.example" },

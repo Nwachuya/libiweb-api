@@ -102,6 +102,41 @@ test("returns normalized media grouped by type with deduped counts", async () =>
   }]);
 });
 
+test("accepts wrapped Crawl4AI results payload", async () => {
+  const handler = createGetMediaHandler({
+    env: {
+      CRAWL4AI_BASE_URL: "http://crawl.example",
+      CRAWL4AI_GETMEDIA_PATH: "/crawl"
+    },
+    fetchImpl: async () => mockJsonResponse(200, {
+      success: true,
+      results: [{
+        url: "https://example.com/listing",
+        media: {
+          images: [{ src: "/img/a.jpg" }],
+          videos: [],
+          audios: []
+        }
+      }]
+    })
+  });
+
+  const res = createResponseRecorder();
+  await handler({ body: { url: "https://example.com/listing" } }, res);
+
+  assert.equal(res.statusCode, 200);
+  assert.deepEqual(res.body.counts, {
+    total: 1,
+    images: 1,
+    videos: 0,
+    audios: 0
+  });
+  assert.deepEqual(res.body.images, [{
+    src: "https://example.com/img/a.jpg",
+    type: "image"
+  }]);
+});
+
 test("returns 502 when response does not include media records", async () => {
   const handler = createGetMediaHandler({
     env: { CRAWL4AI_BASE_URL: "http://crawl.example" },

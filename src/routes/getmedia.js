@@ -52,6 +52,11 @@ function extractTargetUrls(body) {
 function normalizeCrawlResults(payload) {
   if (payload == null) return [];
 
+  if (payload && typeof payload === "object" && !Array.isArray(payload)) {
+    if (payload.results != null) return normalizeCrawlResults(payload.results);
+    if (payload.result != null) return normalizeCrawlResults(payload.result);
+  }
+
   const hasMedia = (value) => (
     value
     && typeof value === "object"

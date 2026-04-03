@@ -47,6 +47,12 @@ function extractTargetUrls(body) {
 function normalizeCrawlResults(payload, predicate = () => true) {
   if (payload == null) return [];
 
+  // Common Crawl4AI envelope: { success: true, results: [...] }
+  if (payload && typeof payload === "object" && !Array.isArray(payload)) {
+    if (payload.results != null) return normalizeCrawlResults(payload.results, predicate);
+    if (payload.result != null) return normalizeCrawlResults(payload.result, predicate);
+  }
+
   const results = [];
   const pushIfValid = (value) => {
     if (!value || typeof value !== "object" || Array.isArray(value)) return;

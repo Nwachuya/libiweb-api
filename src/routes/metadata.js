@@ -61,6 +61,11 @@ function normalizeCrawlResults(payload) {
 
   if (payload == null) return [];
 
+  if (payload && typeof payload === "object" && !Array.isArray(payload)) {
+    if (payload.results != null) return normalizeCrawlResults(payload.results);
+    if (payload.result != null) return normalizeCrawlResults(payload.result);
+  }
+
   if (Array.isArray(payload)) {
     const results = [];
     for (const item of payload) {
