@@ -107,15 +107,18 @@ async function listUsageLogs(options) {
   return items;
 }
 
-function summarizeUsage(items) {
+function summarizeUsage(items, fields = {}) {
+  const endpointField = fields.endpointField || "endpoint";
+  const statusCodeField = fields.statusCodeField || "response_code";
+  const creditField = fields.creditField || "credit_used";
   const endpointAgg = new Map();
   const statusAgg = new Map();
   let totalCredits = 0;
 
   for (const item of items) {
-    const endpoint = String(item.endpoint || "unknown");
-    const creditUsed = Number(item.credit_used || 0);
-    const status = String(item.response_code || "unknown");
+    const endpoint = String(item[endpointField] || item.endpoint || "unknown");
+    const creditUsed = Number(item[creditField] ?? item.credit_used ?? item.credits ?? 0);
+    const status = String(item[statusCodeField] || item.response_code || "unknown");
 
     totalCredits += Number.isFinite(creditUsed) ? creditUsed : 0;
 
@@ -144,6 +147,12 @@ function summarizeUsage(items) {
 function createUsageHandler(options = {}) {
   const env = options.env || process.env;
   const fetchImpl = options.fetchImpl || global.fetch;
+  const usageAccountField = (env.PB_USAGE_LOG_ACCOUNT_FIELD || "account_id").trim();
+  const usageApiKeyField = (env.PB_USAGE_LOG_API_KEY_FIELD || "api_key").trim();
+  const usageCreditField = (env.PB_USAGE_LOG_CREDIT_FIELD || "credit_used").trim();
+  const usageEndpointField = (env.PB_USAGE_LOG_ENDPOINT_FIELD || "endpoint").trim();
+  const usageStatusCodeField = (env.PB_USAGE_LOG_RESPONSE_CODE_FIELD || "response_code").trim();
+  const usageCreatedField = (env.PB_USAGE_LOG_CREATED_FIELD || "created").trim();
 
   return async function usageHandler(req, res) {
     const pbUrl = (env.PB_URL || "").trim();
@@ -180,10 +189,10 @@ function createUsageHandler(options = {}) {
       });
     }
 
-    const baseFilter = `created >= "${periodStart.toISOString()}"`;
+    const baseFilter = `${usageCreatedField} >= "${periodStart.toISOString()}"`;
     const scopedFilter = scope === "account"
-      ? `account_id = "${escapeFilterValue(accountId)}"`
-      : `api_key = "${escapeFilterValue(apiKey)}"`;
+      ? `${usageAccountField} = "${escapeFilterValue(accountId)}"`
+      : `${usageApiKeyField} = "${escapeFilterValue(apiKey)}"`;
     const filter = `${scopedFilter} && ${baseFilter}`;
 
     try {
@@ -195,7 +204,11 @@ function createUsageHandler(options = {}) {
         filter
       });
 
-      const summary = summarizeUsage(items);
+      const summary = summarizeUsage(items, {
+        endpointField: usageEndpointField,
+        statusCodeField: usageStatusCodeField,
+        creditField: usageCreditField
+      });
       return res.status(200).json({
         period: formatPeriod(periodStart),
         scope,

@@ -18,7 +18,11 @@ const ENV_KEYS = [
   "PB_FAIL_CLOSED",
   "PB_ENFORCE_ENDPOINT_ALLOWLIST",
   "PB_ENFORCE_MONTHLY_CREDITS",
-  "PB_CREDIT_CHECK_EXEMPT_ENDPOINTS"
+  "PB_ENFORCE_KEY_MONTHLY_CREDITS",
+  "PB_CREDIT_CHECK_EXEMPT_ENDPOINTS",
+  "PB_USAGE_LOG_ACCOUNT_FIELD",
+  "PB_USAGE_LOG_CREDIT_FIELD",
+  "PB_USAGE_LOG_CREATED_FIELD"
 ];
 
 function clearSrcCache() {
@@ -271,6 +275,7 @@ test("rejects when monthly credit limit is exceeded", async () => {
       PB_ALLOWED_API_KEY_STATUS: "active",
       PB_FAIL_CLOSED: "true",
       PB_ENFORCE_MONTHLY_CREDITS: "true",
+      PB_ENFORCE_KEY_MONTHLY_CREDITS: "true",
       PB_ENFORCE_ENDPOINT_ALLOWLIST: "false"
     },
     fetchMock

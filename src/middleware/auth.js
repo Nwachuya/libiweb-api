@@ -23,9 +23,13 @@ const PB_ALLOWED_SUB_STATUSES = toSet(process.env.PB_ALLOWED_SUB_STATUSES || "")
 const PB_AUTH_DEBUG = toBool(process.env.PB_AUTH_DEBUG, false);
 const PB_ENFORCE_ENDPOINT_ALLOWLIST = toBool(process.env.PB_ENFORCE_ENDPOINT_ALLOWLIST, true);
 const PB_ENFORCE_MONTHLY_CREDITS = toBool(process.env.PB_ENFORCE_MONTHLY_CREDITS, true);
+const PB_ENFORCE_KEY_MONTHLY_CREDITS = toBool(process.env.PB_ENFORCE_KEY_MONTHLY_CREDITS, false);
 const PB_CREDIT_CHECK_EXEMPT_ENDPOINTS = toSet(
   process.env.PB_CREDIT_CHECK_EXEMPT_ENDPOINTS || "/v2/health,/v2/status,/v2/usage"
 );
+const PB_USAGE_LOG_ACCOUNT_FIELD = (process.env.PB_USAGE_LOG_ACCOUNT_FIELD || "account_id").trim();
+const PB_USAGE_LOG_CREDIT_FIELD = (process.env.PB_USAGE_LOG_CREDIT_FIELD || "credit_used").trim();
+const PB_USAGE_LOG_CREATED_FIELD = (process.env.PB_USAGE_LOG_CREATED_FIELD || "created").trim();
 
 const pbSession = {
   token: "",
@@ -201,36 +205,59 @@ async function getMonthlyUsedCredits(accountId) {
   periodStart.setUTCDate(1);
   periodStart.setUTCHours(0, 0, 0, 0);
 
-  const filter = [
-    `account_id = "${escapeFilterValue(accountId)}"`,
-    `created >= "${periodStart.toISOString()}"`
-  ].join(" && ");
+  const accountFieldCandidates = Array.from(
+    new Set([PB_USAGE_LOG_ACCOUNT_FIELD, "account_id", "account"].filter(Boolean))
+  );
 
-  let page = 1;
-  let total = 0;
-  while (page <= 20) {
-    const search = new URLSearchParams({
-      page: String(page),
-      perPage: "200",
-      filter
-    });
+  async function queryWithAccountField(accountField) {
+    const filter = [
+      `${accountField} = "${escapeFilterValue(accountId)}"`,
+      `${PB_USAGE_LOG_CREATED_FIELD} >= "${periodStart.toISOString()}"`
+    ].join(" && ");
 
-    const payload = await pocketBaseRequest(
-      `/api/collections/${encodeURIComponent(PB_COLLECTION_USAGE_LOGS)}/records?${search.toString()}`
-    );
+    let page = 1;
+    let total = 0;
+    while (page <= 20) {
+      const search = new URLSearchParams({
+        page: String(page),
+        perPage: "200",
+        filter
+      });
 
-    const items = Array.isArray(payload && payload.items) ? payload.items : [];
-    for (const item of items) {
-      const used = Number(item && item.credit_used);
-      if (Number.isFinite(used) && used > 0) total += used;
+      const payload = await pocketBaseRequest(
+        `/api/collections/${encodeURIComponent(PB_COLLECTION_USAGE_LOGS)}/records?${search.toString()}`
+      );
+
+      const items = Array.isArray(payload && payload.items) ? payload.items : [];
+      for (const item of items) {
+        const used = Number(
+          item && (
+            item[PB_USAGE_LOG_CREDIT_FIELD]
+            ?? item.credit_used
+            ?? item.credits
+          )
+        );
+        if (Number.isFinite(used) && used > 0) total += used;
+      }
+
+      const totalPages = Number(payload && payload.totalPages) || 1;
+      if (page >= totalPages) break;
+      page += 1;
     }
 
-    const totalPages = Number(payload && payload.totalPages) || 1;
-    if (page >= totalPages) break;
-    page += 1;
+    return total;
   }
 
-  return total;
+  let lastError = null;
+  for (const accountField of accountFieldCandidates) {
+    try {
+      return await queryWithAccountField(accountField);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error("Failed to query monthly usage.");
 }
 
 function resolveAllowedEndpoints(keyRecord, plan) {
@@ -289,7 +316,9 @@ async function validateApiKeyWithPocketBase(apiKey, req) {
   }
 
   const keyAllowedEndpoints = resolveAllowedEndpoints(keyRecord, null);
-  const keyMonthlyCreditLimit = parseNumberOrNull(keyRecord && keyRecord.monthly_credits_override);
+  const keyMonthlyCreditLimit = PB_ENFORCE_KEY_MONTHLY_CREDITS
+    ? parseNumberOrNull(keyRecord && keyRecord.monthly_credits_override)
+    : null;
   const hasPlanRelation = Boolean(getRelationId(account.plan));
   const needsPlan = hasPlanRelation
     && (

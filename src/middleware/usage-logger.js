@@ -3,6 +3,16 @@ const PB_ADMIN_EMAIL = (process.env.PB_ADMIN_EMAIL || "").trim();
 const PB_ADMIN_PASSWORD = process.env.PB_ADMIN_PASSWORD || "";
 const PB_COLLECTION_USAGE_LOGS = (process.env.PB_COLLECTION_USAGE_LOGS || "usage_logs").trim();
 const PB_USAGE_LOGGING_ENABLED = toBool(process.env.PB_USAGE_LOGGING_ENABLED, true);
+const PB_USAGE_LOG_API_KEY_FIELD = (process.env.PB_USAGE_LOG_API_KEY_FIELD || "api_key").trim();
+const PB_USAGE_LOG_RESPONSE_CODE_FIELD = (process.env.PB_USAGE_LOG_RESPONSE_CODE_FIELD || "response_code").trim();
+const PB_USAGE_LOG_CREDIT_FIELD = (process.env.PB_USAGE_LOG_CREDIT_FIELD || "credit_used").trim();
+const PB_USAGE_LOG_ENDPOINT_FIELD = (process.env.PB_USAGE_LOG_ENDPOINT_FIELD || "endpoint").trim();
+const PB_USAGE_LOG_METHOD_FIELD = (process.env.PB_USAGE_LOG_METHOD_FIELD || "method").trim();
+const PB_USAGE_LOG_ACCOUNT_FIELD = (process.env.PB_USAGE_LOG_ACCOUNT_FIELD || "account_id").trim();
+const PB_USAGE_LOG_TIMESTAMP_FIELD = (process.env.PB_USAGE_LOG_TIMESTAMP_FIELD || "timestamp").trim();
+const PB_USAGE_LOG_LATENCY_FIELD = (process.env.PB_USAGE_LOG_LATENCY_FIELD || "latency_ms").trim();
+const PB_USAGE_LOG_USER_AGENT_FIELD = (process.env.PB_USAGE_LOG_USER_AGENT_FIELD || "user_agent").trim();
+const PB_USAGE_LOG_IP_FIELD = (process.env.PB_USAGE_LOG_IP_FIELD || "ip_address").trim();
 
 const pbSession = {
   token: ""
@@ -116,6 +126,30 @@ async function createUsageRecord(record, retry = true) {
   }
 }
 
+function setField(record, fieldName, value) {
+  if (!fieldName) return;
+  record[fieldName] = value;
+}
+
+function buildUsageRecord(req, res, accountId, apiKey, startedAt, includeExtended) {
+  const record = {};
+  setField(record, PB_USAGE_LOG_API_KEY_FIELD, apiKey);
+  setField(record, PB_USAGE_LOG_RESPONSE_CODE_FIELD, String(res.statusCode || 0));
+  setField(record, PB_USAGE_LOG_CREDIT_FIELD, getCreditUsed(req, res));
+  setField(record, PB_USAGE_LOG_ENDPOINT_FIELD, normalizeEndpoint(req));
+  setField(record, PB_USAGE_LOG_METHOD_FIELD, req.method || "");
+  setField(record, PB_USAGE_LOG_ACCOUNT_FIELD, accountId);
+
+  if (includeExtended) {
+    setField(record, PB_USAGE_LOG_TIMESTAMP_FIELD, new Date().toISOString());
+    setField(record, PB_USAGE_LOG_LATENCY_FIELD, Date.now() - startedAt);
+    setField(record, PB_USAGE_LOG_USER_AGENT_FIELD, String(req.headers["user-agent"] || ""));
+    setField(record, PB_USAGE_LOG_IP_FIELD, normalizeIp(req));
+  }
+
+  return record;
+}
+
 function createUsageLoggerMiddleware() {
   if (!isConfigured()) {
     return function usageLoggerDisabled(req, res, next) {
@@ -129,23 +163,25 @@ function createUsageLoggerMiddleware() {
     res.on("finish", () => {
       const accountId = (req.auth && req.auth.accountId) || "";
       const apiKey = String(req.headers["x-api-key"] || "");
+      const fullRecord = buildUsageRecord(req, res, accountId, apiKey, startedAt, true);
+      const minimalRecord = buildUsageRecord(req, res, accountId, apiKey, startedAt, false);
 
-      const record = {
-        api_key: apiKey,
-        response_code: String(res.statusCode || 0),
-        credit_used: getCreditUsed(req, res),
-        endpoint: normalizeEndpoint(req),
-        method: req.method || "",
-        account_id: accountId,
-        timestamp: new Date().toISOString(),
-        latency_ms: Date.now() - startedAt,
-        user_agent: String(req.headers["user-agent"] || ""),
-        ip_address: normalizeIp(req)
-      };
-
-      void createUsageRecord(record).catch((err) => {
-        console.error("[usage-logger]", err.message);
-      });
+      void (async () => {
+        try {
+          await createUsageRecord(fullRecord);
+        } catch (err) {
+          if (err && String(err.message || "").includes("(400)")) {
+            try {
+              await createUsageRecord(minimalRecord);
+              return;
+            } catch (fallbackErr) {
+              console.error("[usage-logger]", fallbackErr.message);
+              return;
+            }
+          }
+          console.error("[usage-logger]", err.message);
+        }
+      })();
     });
 
     return next();
