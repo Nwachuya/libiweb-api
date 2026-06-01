@@ -193,6 +193,30 @@ test("getemails scans candidate pages and dedupes emails", async () => {
   );
 });
 
+test("getemails short-circuits with 1 crawl when no candidate pages found", async () => {
+  let calls = 0;
+  const handler = createGetEmailsHandler({
+    env: { CRAWL4AI_BASE_URL: "http://crawl.example" },
+    fetchImpl: async () => {
+      calls += 1;
+      return mockJsonResponse(200, [[{
+        url: "https://example.com",
+        markdown: { raw_markdown: "Contact us at hello@example.com" },
+        links: { internal: [{ href: "https://example.com/blog", text: "Blog" }] }
+      }]]);
+    }
+  });
+
+  const res = createResponseRecorder();
+  await handler({ body: { url: "https://example.com" } }, res);
+
+  assert.equal(res.statusCode, 200);
+  assert.equal(calls, 1);
+  assert.equal(res.body.counts.pages_scanned, 1);
+  assert.equal(res.body.counts.candidate_pages, 0);
+  assert.deepEqual(res.body.emails.map((e) => e.email), ["hello@example.com"]);
+});
+
 test("bulk creates job and status endpoint returns completion", async () => {
   bulkJobs.clear();
   webhookRegistry.clear();

@@ -22,8 +22,8 @@ const EMAIL_RE = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 function parseMaxPages(value) {
   const parsed = Number(value);
-  if (!Number.isFinite(parsed) || parsed <= 0) return 10;
-  return Math.min(Math.trunc(parsed), 25);
+  if (!Number.isFinite(parsed) || parsed <= 0) return 3;
+  return Math.min(Math.trunc(parsed), 10);
 }
 
 function normalizeUrlForDedupe(value) {
@@ -181,6 +181,36 @@ function hasCrawlRecord(value) {
   return value && typeof value === "object" && !Array.isArray(value);
 }
 
+function collectEmails(results, fallbackUrl, emailsToSources) {
+  for (const result of results) {
+    const sourceUrl = result.url || result.redirected_url || fallbackUrl;
+    for (const email of extractEmails(result)) {
+      if (!emailsToSources.has(email)) emailsToSources.set(email, new Set());
+      emailsToSources.get(email).add(sourceUrl);
+    }
+  }
+}
+
+function buildEmailsResponse(targetUrl, scannedPages, candidateUrls, emailsToSources) {
+  const emails = Array.from(emailsToSources.entries())
+    .map(([email, sources]) => ({
+      email,
+      sources: Array.from(sources).sort()
+    }))
+    .sort((a, b) => a.email.localeCompare(b.email));
+
+  return {
+    target: targetUrl,
+    counts: {
+      pages_scanned: scannedPages.length,
+      candidate_pages: candidateUrls.length,
+      emails_found: emails.length
+    },
+    scanned_pages: scannedPages,
+    emails
+  };
+}
+
 function createGetEmailsHandler(options = {}) {
   const env = options.env || process.env;
   const fetchImpl = options.fetchImpl || global.fetch;
@@ -198,14 +228,14 @@ function createGetEmailsHandler(options = {}) {
     }
 
     const maxPages = parseMaxPages(body.max_pages);
-    const seedRequestBody = sanitizeGetEmailsBody(body, [targetUrl]);
 
+    // Request 1: crawl seed URL
     const seedUpstream = await postToCrawlService({
       env,
       fetchImpl,
       pathEnvKey: "CRAWL4AI_GETEMAILS_PATH",
       defaultPath: "/crawl",
-      body: seedRequestBody,
+      body: sanitizeGetEmailsBody(body, [targetUrl]),
       timeoutMessage: "Get emails request timed out."
     });
 
@@ -220,17 +250,29 @@ function createGetEmailsHandler(options = {}) {
       });
     }
 
+    // Extract emails from the seed page immediately — don't discard this data
+    const emailsToSources = new Map();
+    collectEmails(seedResults, targetUrl, emailsToSources);
+
+    // Find contact-pattern candidate pages from seed links
     const candidateUrls = pickInternalLinks(seedResults[0]);
-    const pagesToCrawl = Array.from(new Set([targetUrl, ...candidateUrls])).slice(0, maxPages);
+
+    // Short-circuit: no candidates found, return with seed data only (1 crawl total)
+    if (!candidateUrls.length) {
+      return res.status(200).json(
+        buildEmailsResponse(targetUrl, [targetUrl], [], emailsToSources)
+      );
+    }
+
+    // Request 2: crawl candidate pages only (seed URL already done above)
+    const pagesToCrawl = candidateUrls.slice(0, maxPages - 1);
 
     const pageUpstream = await postToCrawlService({
       env,
       fetchImpl,
       pathEnvKey: "CRAWL4AI_GETEMAILS_PATH",
       defaultPath: "/crawl",
-      body: {
-        ...sanitizeGetEmailsBody(body, pagesToCrawl)
-      },
+      body: sanitizeGetEmailsBody(body, pagesToCrawl),
       timeoutMessage: "Get emails request timed out."
     });
 
@@ -245,34 +287,12 @@ function createGetEmailsHandler(options = {}) {
       });
     }
 
-    const emailsToSources = new Map();
-    for (const result of pageResults) {
-      const sourceUrl = result.url || result.redirected_url || targetUrl;
-      const emails = extractEmails(result);
+    // Merge emails from candidate pages into the existing map
+    collectEmails(pageResults, targetUrl, emailsToSources);
 
-      for (const email of emails) {
-        if (!emailsToSources.has(email)) emailsToSources.set(email, new Set());
-        emailsToSources.get(email).add(sourceUrl);
-      }
-    }
-
-    const emails = Array.from(emailsToSources.entries())
-      .map(([email, sources]) => ({
-        email,
-        sources: Array.from(sources).sort()
-      }))
-      .sort((a, b) => a.email.localeCompare(b.email));
-
-    return res.status(200).json({
-      target: targetUrl,
-      counts: {
-        pages_scanned: pagesToCrawl.length,
-        candidate_pages: candidateUrls.length,
-        emails_found: emails.length
-      },
-      scanned_pages: pagesToCrawl,
-      emails
-    });
+    return res.status(200).json(
+      buildEmailsResponse(targetUrl, [targetUrl, ...pagesToCrawl], candidateUrls, emailsToSources)
+    );
   };
 }
 
