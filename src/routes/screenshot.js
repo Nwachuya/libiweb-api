@@ -59,7 +59,7 @@ function createScreenshotHandler(options = {}) {
       env,
       fetchImpl,
       pathEnvKey: "CRAWL4AI_SCREENSHOT_PATH",
-      defaultPath: "/crawl",
+      defaultPath: "/screenshot",
       body: {
         ...body,
         screenshot: body.screenshot === false ? false : true,

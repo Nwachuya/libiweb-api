@@ -1,88 +1,25 @@
 const express = require("express");
-
-const DEFAULT_CRAWL4AI_BASE_URL = "http://m4oco0sgog08o040g8o0os8o.69.62.114.245.sslip.io";
-const DEFAULT_CRAWL4AI_MAP_PATH = "/crawl";
-const DEFAULT_TIMEOUT_MS = 30000;
+const {
+  extractTargetUrls,
+  normalizeCrawlResults,
+  postToCrawlService,
+  isHttpUrl
+} = require("../lib/crawl4ai");
 
 const router = express.Router();
 
-function parseTimeout(value) {
-  const parsed = Number(value);
-  if (!Number.isFinite(parsed) || parsed <= 0) return DEFAULT_TIMEOUT_MS;
-  return parsed;
-}
-
-function normalizePath(value) {
-  if (value == null) value = DEFAULT_CRAWL4AI_MAP_PATH;
-  const path = String(value).trim();
-  if (!path) return "";
-  return path.startsWith("/") ? path : `/${path}`;
-}
-
-function isHttpUrl(value) {
-  if (typeof value !== "string" || value.trim() === "") return false;
-  try {
-    const u = new URL(value);
-    return u.protocol === "http:" || u.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
-
-function parsePayload(rawText) {
-  if (!rawText) return {};
-  try {
-    return JSON.parse(rawText);
-  } catch {
-    return { raw: rawText.slice(0, 8000) };
-  }
-}
-
-function normalizeCrawlResults(payload) {
-  if (payload == null) return [];
-
-  if (payload && typeof payload === "object" && !Array.isArray(payload)) {
-    if (payload.results != null) return normalizeCrawlResults(payload.results);
-    if (payload.result != null) return normalizeCrawlResults(payload.result);
-  }
-
-  // Observed sample shape: [[{...crawl result...}]]
-  if (Array.isArray(payload)) {
-    const results = [];
-    for (const item of payload) {
-      if (Array.isArray(item)) {
-        for (const nested of item) {
-          if (nested && typeof nested === "object" && nested.links) results.push(nested);
-        }
-      } else if (item && typeof item === "object" && item.links) {
-        results.push(item);
-      }
-    }
-    return results;
-  }
-
-  if (payload && typeof payload === "object" && payload.links) {
-    return [payload];
-  }
-
-  return [];
-}
-
 function pluckUrls(entries) {
   if (!Array.isArray(entries)) return [];
-
   const urls = [];
   for (const entry of entries) {
     if (typeof entry === "string") {
       if (isHttpUrl(entry)) urls.push(entry);
       continue;
     }
-
     if (entry && typeof entry === "object" && isHttpUrl(entry.href)) {
       urls.push(entry.href);
     }
   }
-
   return urls;
 }
 
@@ -113,15 +50,8 @@ function dedupeNormalized(urls) {
   return dedupeAndSort(normalized);
 }
 
-function extractTargetUrls(body) {
-  const list = [];
-  if (Array.isArray(body.urls)) {
-    for (const url of body.urls) {
-      if (isHttpUrl(url)) list.push(url);
-    }
-  }
-  if (isHttpUrl(body.url)) list.push(body.url);
-  return Array.from(new Set(list));
+function hasLinks(value) {
+  return value && typeof value === "object" && !Array.isArray(value) && value.links != null;
 }
 
 function createMapHandler(options = {}) {
@@ -140,69 +70,28 @@ function createMapHandler(options = {}) {
       });
     }
 
-    if (typeof fetchImpl !== "function") {
-      return res.status(500).json({
-        status: 500,
-        error: "Fetch API is unavailable."
-      });
-    }
-
-    const baseUrl = (env.CRAWL4AI_BASE_URL || DEFAULT_CRAWL4AI_BASE_URL).trim().replace(/\/+$/, "");
-    const path = normalizePath(env.CRAWL4AI_MAP_PATH);
-    const timeoutMs = parseTimeout(env.CRAWL4AI_TIMEOUT_MS || DEFAULT_TIMEOUT_MS);
-    const upstreamUrl = `${baseUrl}${path}`;
-
-    const upstreamBody = {
-      ...body,
-      urls: targetUrls
-    };
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), timeoutMs);
-
-    let upstream;
-    try {
-      upstream = await fetchImpl(upstreamUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify(upstreamBody),
-        signal: controller.signal
-      });
-    } catch (err) {
-      clearTimeout(timeout);
-      if (err && err.name === "AbortError") {
-        return res.status(504).json({
-          status: 504,
-          error: "Map request timed out."
-        });
-      }
-      return res.status(502).json({
-        status: 502,
-        error: "Unable to reach crawl service."
-      });
-    }
-
-    clearTimeout(timeout);
-    const raw = await upstream.text();
-    const payload = parsePayload(raw);
+    const upstream = await postToCrawlService({
+      env,
+      fetchImpl,
+      pathEnvKey: "CRAWL4AI_MAP_PATH",
+      defaultPath: "/crawl",
+      body: {
+        ...body,
+        urls: targetUrls
+      },
+      timeoutMessage: "Map request timed out."
+    });
 
     if (!upstream.ok) {
-      return res.status(upstream.status).json({
-        status: upstream.status,
-        error: "Crawl service returned an error.",
-        details: payload
-      });
+      return res.status(upstream.status).json(upstream.payload);
     }
 
-    const results = normalizeCrawlResults(payload);
+    const results = normalizeCrawlResults(upstream.payload, hasLinks);
     if (!results.length) {
       return res.status(502).json({
         status: 502,
         error: "Crawl service response did not include link maps.",
-        details: payload
+        details: upstream.payload
       });
     }
 
@@ -217,7 +106,7 @@ function createMapHandler(options = {}) {
     internal = dedupeNormalized(internal);
     external = dedupeNormalized(external);
 
-    // If upstream returns overlaps, keep a URL in a single bucket so counts stay coherent.
+    // Keep a URL in one bucket only so counts stay coherent.
     const internalSet = new Set(internal);
     external = external.filter((url) => !internalSet.has(url));
     const all = dedupeAndSort(internal.concat(external));
