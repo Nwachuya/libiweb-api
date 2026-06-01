@@ -1,10 +1,11 @@
 [phases.setup]
-aptPkgs = ["python3", "python3-pip", "python3-dev", "build-essential"]
+aptPkgs = ["python3", "python3-pip", "python3-dev", "python3-venv", "build-essential"]
 
 [phases.install]
 cmds = [
   "npm ci --omit=dev",
-  "pip3 install --no-cache-dir -r apimink/fused-backend/requirements.txt"
+  "python3 -m venv /opt/fused-venv",
+  "/opt/fused-venv/bin/pip install --no-cache-dir --prefer-binary -r apimink/fused-backend/requirements.txt"
 ]
 
 [start]
