@@ -1,4 +1,4 @@
-const DEFAULT_CRAWL4AI_BASE_URL = "http://m4oco0sgog08o040g8o0os8o.69.62.114.245.sslip.io";
+const DEFAULT_CRAWL4AI_BASE_URL = "https://crawl.sluxia.com";
 const DEFAULT_TIMEOUT_MS = 30000;
 
 function parseTimeout(value, fallback = DEFAULT_TIMEOUT_MS) {
