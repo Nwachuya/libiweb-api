@@ -109,35 +109,22 @@ curl -X POST "https://api.libiweb.com/v2/chrono" \
 
 ## Deployment (Coolify)
 
-### Node.js API (`libiweb-api`)
+Both services — Node.js API and Python Fused Backend — run together in a single deployment via `docker-compose.yml`. Nginx handles internal path-based routing so everything is served from one base URL.
+
+```
+api.libiweb.com
+  └── nginx
+        ├── /v2/chrono, /v2/mock, /v2/fuzzy ... → fused (Python, port 8001)
+        └── everything else                     → api (Node.js, port 3000)
+```
 
 1. Push repo to GitHub.
 2. In Coolify, create a new resource from this repo.
-3. Use `Dockerfile` build pack.
-4. Set environment variables:
+3. Use **Docker Compose** build pack.
+4. Set environment variables (shared by both services via `.env`):
    - `API_KEYS` — comma-separated valid API keys
    - `PB_URL` — PocketBase instance URL
    - `PB_ADMIN_EMAIL` / `PB_ADMIN_PASSWORD` — PocketBase admin credentials
    - `CRAWL4AI_BASE_URL` — Crawl4AI service URL (default: `https://crawl.sluxia.com`)
-5. Set domain to `api.libiweb.com`.
+5. Set domain to `api.libiweb.com` (point at the `nginx` service, port 80).
 6. Deploy.
-
-### Fused Backend (`fused-backend`)
-
-1. In Coolify, create a new resource from `apimink/fused-backend/`.
-2. Use `Dockerfile` build pack.
-3. Set environment variables:
-   - `API_KEYS` — same comma-separated keys as the Node.js service
-4. **Do not assign a public domain** — internal network only.
-5. Deploy.
-
-### Traefik Routing (Coolify)
-
-Add a higher-priority routing rule on `api.libiweb.com` to forward computational endpoint paths to the Fused Backend with a `/v2/` → `/v1/` path rewrite:
-
-```
-PathPrefix: /v2/chrono, /v2/mock, /v2/fuzzy, /v2/token, /v2/pack, /v2/diff,
-            /v2/cast, /v2/tax, /v2/policy, /v2/telemetry, /v2/series,
-            /v2/spatial, /v2/proration, /v2/apca, /v2/dag, /v2/enforcer,
-            /v2/gcode, /v2/bio, /v2/merkle, /v2/aeo, /v2/shifts
-```
