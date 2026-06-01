@@ -92,6 +92,10 @@ app.use("/v2/bulk", bulkRouter);
 app.use("/v2/usage", usageRouter);
 app.use("/v2/webhook", webhookRouter);
 
+// Computational endpoints — proxied to fused backend (localhost:8001)
+const fusedRouter = require("./routes/fused");
+app.use("/v2", fusedRouter);
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({

@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "python312", "python312Packages.pip"]
+
+[phases.install]
+cmds = [
+  "npm ci --omit=dev",
+  "pip install --no-cache-dir -r apimink/fused-backend/requirements.txt"
+]
+
+[start]
+cmd = "bash start.sh"

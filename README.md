@@ -107,24 +107,23 @@ curl -X POST "https://api.libiweb.com/v2/chrono" \
 
 ---
 
-## Deployment (Coolify)
+## Deployment (Coolify — Nixpacks)
 
-Both services — Node.js API and Python Fused Backend — run together in a single deployment via `docker-compose.yml`. Nginx handles internal path-based routing so everything is served from one base URL.
+Both the Node.js API and the Python Fused Backend run in the same container. `nixpacks.toml` installs both runtimes and their dependencies. `start.sh` boots uvicorn in the background then starts Node.js in the foreground.
 
 ```
-api.libiweb.com
-  └── nginx
-        ├── /v2/chrono, /v2/mock, /v2/fuzzy ... → fused (Python, port 8001)
-        └── everything else                     → api (Node.js, port 3000)
+api.libiweb.com  →  Node.js (port 3000)
+                       ├── /v2/crawl, /v2/map ...   handled directly
+                       └── /v2/chrono, /v2/mock ...  proxied to uvicorn (localhost:8001)
 ```
 
 1. Push repo to GitHub.
 2. In Coolify, create a new resource from this repo.
-3. Use **Docker Compose** build pack.
-4. Set environment variables (shared by both services via `.env`):
+3. Use **Nixpacks** build pack.
+4. Set environment variables:
    - `API_KEYS` — comma-separated valid API keys
    - `PB_URL` — PocketBase instance URL
    - `PB_ADMIN_EMAIL` / `PB_ADMIN_PASSWORD` — PocketBase admin credentials
    - `CRAWL4AI_BASE_URL` — Crawl4AI service URL (default: `https://crawl.sluxia.com`)
-5. Set domain to `api.libiweb.com` (point at the `nginx` service, port 80).
+5. Set domain to `api.libiweb.com`.
 6. Deploy.
