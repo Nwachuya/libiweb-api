@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+venv/
+env/
+server.log
+.git/
+.gitignore
+.DS_Store
+skillstest.json
+Dockerfile
+.dockerignore

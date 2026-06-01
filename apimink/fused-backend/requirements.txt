@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydantic
+scipy
+numpy
+networkx
+jellyfish
+python-dotenv
+beautifulsoup4
+httpx

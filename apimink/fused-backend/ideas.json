@@ -1,0 +1,205 @@
+[
+    {
+        "API Name": "Chrono-Intersection Engine",
+        "Target Industry": "HR / Remote Work",
+        "The Enterprise Problem": "Finding meeting overlaps across global timezones and DST shifts.",
+        "The Core Algorithm": "Convert all participant schedules to continuous UTC epoch integer arrays. Use a Sweep-Line algorithm (or Interval Tree) to parse the timeline, incrementing a counter when an availability interval starts and decrementing when it ends. Extract the exact epoch ranges where the counter equals the total number of participants, then map back to ISO-8601 strings.",
+        "Business Value": "Replaces expensive, auth-heavy calendar integrations (Cronofy/Google)."
+    },
+    {
+        "API Name": "Stateful Mock Data",
+        "Target Industry": "QA / Development",
+        "The Enterprise Problem": "Generating logically sound, relational synthetic testing data.",
+        "The Core Algorithm": "Build a recursive Abstract Syntax Tree (AST) evaluator. Parse a JSON schema containing formulas. Generate a base random seed. For relational fields, traverse the AST, evaluating 'if/then' conditions using isolated execution (e.g., JS 'new Function()'), dynamically injecting previously generated sibling keys as variables into the current row context.",
+        "Business Value": "Developers call it directly from CLI; zero database overhead."
+    },
+    {
+        "API Name": "Fuzzy CRM Deduplication",
+        "Target Industry": "SalesOps / CRM",
+        "The Enterprise Problem": "Messy customer lists requiring expensive AI to deduplicate.",
+        "The Core Algorithm": "Pre-process strings to strip special characters. Compute a similarity matrix using Levenshtein for exact edit-distance, Jaro-Winkler for end-of-word typos, and Soundex for phonetic matches. Group matched items into clusters using a Disjoint-Set (Union-Find) algorithm wherever the combined edge weight > 85%.",
+        "Business Value": "Cheaper, faster, and more predictable than LLM deduplication."
+    },
+    {
+        "API Name": "Deterministic Tokenization",
+        "Target Industry": "Data Privacy / ML",
+        "The Enterprise Problem": "Masking PII for testing without breaking database relationships/formats.",
+        "The Core Algorithm": "Use HMAC-SHA256 with a secret salt to generate a deterministic hash of the PII. To preserve formatting (e.g., Credit Cards), convert the hash into an integer, map it into the valid digit space, and calculate the final check-digit using a reverse Luhn module so the fake number passes standard database validations.",
+        "Business Value": "Solves strict compliance laws; becomes a CI/CD dependency."
+    },
+    {
+        "API Name": "3D Combinatorial Bin Packing",
+        "Target Industry": "Logistics / Cloud",
+        "The Enterprise Problem": "Packing boxes or VMs efficiently to reduce wasted space/compute.",
+        "The Core Algorithm": "Implement a 3D Guillotine Split heuristic. Sort items by volume (First-Fit Decreasing). Place the largest item at (0,0,0). Mathematically split the remaining empty space into 3 new rectangular prisms (Right, Top, Front). Recursively try all 6 spatial rotations for the next item, placing it in the smallest bounding space it fits.",
+        "Business Value": "Direct, massive ROI by cutting shipping and server costs."
+    },
+    {
+        "API Name": "Deep Semantic Reconciliation",
+        "Target Industry": "FinTech / B2B Sync",
+        "The Enterprise Problem": "Finding true differences in massive 5MB payloads across microservices.",
+        "The Core Algorithm": "Flatten both JSON objects into key-value graphs. Recursively sort all arrays by a structural hash to ignore ordering differences. Perform a deep graph traversal. Calculate Levenshtein distance on keys to detect renamed variables (cust_id vs custId). Export differences as an RFC 6902 compliant JSONPatch array.",
+        "Business Value": "Essential, bulletproof sync-checker for complex B2B pipelines."
+    },
+    {
+        "API Name": "Self-Healing Schema Cast",
+        "Target Industry": "Data Engineering",
+        "The Enterprise Problem": "Upstream API schema drift crashing data ingestion pipelines.",
+        "The Core Algorithm": "Implement a Recursive Descent Parser. Walk the incoming payload against a strict target schema. If type mismatches occur, apply mathematical coercion (e.g., string-to-int). If structural nesting differs, flatten the incoming payload and perform fuzzy key-matching to auto-remap drifted properties back into the expected nested schema.",
+        "Business Value": "Acts as an automated immune system for enterprise databases."
+    },
+    {
+        "API Name": "Tax-Lot / Cost Basis Engine",
+        "Target Industry": "FinTech / Crypto",
+        "The Enterprise Problem": "Calculating exact realized gains via FIFO/LIFO/HIFO logic.",
+        "The Core Algorithm": "Create an in-memory queue. Iterate chronological transactions. On 'Buy', push a lot {qty, price}. On 'Sell', pop from the queue (FIFO=head, LIFO=tail, HIFO=sort queue by price). Mathematically deduct sold quantity from the lot, calculate profit/loss margins, and push the remaining quantity back into the queue.",
+        "Business Value": "Legally required math; saves developers from building complex ledgers."
+    },
+    {
+        "API Name": "Stateless Policy Engine (ABAC)",
+        "Target Industry": "Cybersecurity",
+        "The Enterprise Problem": "Evaluating complex user attribute permissions dynamically.",
+        "The Core Algorithm": "Build a Boolean Expression Evaluator. Parse JSON-logic rules into a Directed Acyclic Graph (DAG) of logical operators (AND, OR). Inject User Attributes as leaf node values. Traverse the DAG bottom-up, evaluating each branch until reaching the final true/false root node authorization state.",
+        "Business Value": "Offloads authorization logic from microservices; replaces heavy OPA."
+    },
+    {
+        "API Name": "Time-Series Interpolation",
+        "Target Industry": "IoT / Monitoring",
+        "The Enterprise Problem": "Missing or spiked data ruining analytics dashboards.",
+        "The Core Algorithm": "Bucket raw timestamps into uniform interval arrays. Fill null gaps using Linear Interpolation. Apply a Savitzky-Golay smoothing filter to mathematically remove hardware noise. Calculate the rolling Mean and Standard Deviation; flag data points with a Z-Score > 3 as statistical anomalies.",
+        "Business Value": "Cleans jagged IoT hardware data without heavy Spark/Kafka setups."
+    },
+    {
+        "API Name": "Spatial Ray-Casting & Geofence",
+        "Target Industry": "Drones / Delivery",
+        "The Enterprise Problem": "Checking if a GPS point falls in custom delivery/tax polygons.",
+        "The Core Algorithm": "Implement the geometric Ray-Casting algorithm. Cast an infinite mathematical ray from the target GPS coordinate along the X-axis. Iterate through all polygon line segments. Count the intersections. Odd number = point is inside the geofence; Even number = outside. Use Haversine for distance to nearest boundary.",
+        "Business Value": "Ultra-fast offline routing that bypasses Google Maps rate-limits."
+    },
+    {
+        "API Name": "Tiered Proration Engine",
+        "Target Industry": "B2B SaaS / Billing",
+        "The Enterprise Problem": "Complex math for mid-cycle billing upgrades and tier volumes.",
+        "The Core Algorithm": "Calculate exact billing cycle duration in seconds. Compute elapsed seconds before upgrade to establish time-ratio. Distribute past usage across old step-function tiers. Distribute remaining projected usage across new pricing tiers based on the remaining time-ratio. Calculate exact debits/credits.",
+        "Business Value": "Stops revenue leaks and billing bugs; massive developer pain relief."
+    },
+    {
+        "API Name": "Deterministic APCA Matrix",
+        "Target Industry": "UI / Accessibility",
+        "The Enterprise Problem": "Generating legally compliant UI color palettes dynamically.",
+        "The Core Algorithm": "Convert base HEX color to the Oklab color space. Generate a tonal range by incrementally adjusting the Lightness channel. Calculate the APCA (Accessible Perceptual Contrast Algorithm) luminance value for foreground vs background pairs to mathematically guarantee they exceed legal WCAG 3.0 contrast thresholds.",
+        "Business Value": "Solves WCAG 3.0 legal requirements for automated web builders."
+    },
+    {
+        "API Name": "Topological DAG & Conflict",
+        "Target Industry": "Legal / Auditing",
+        "The Enterprise Problem": "Finding circular dependencies in corporate ownership networks.",
+        "The Core Algorithm": "Represent ownership data as an adjacency list. Run Tarjan’s Strongly Connected Components algorithm using Depth-First Search (DFS) to identify cycle graphs (circular ownership). Use Dijkstra’s algorithm (using ownership percentages as inverted weights) to calculate the maximum controlling path between entities.",
+        "Business Value": "Gives lawyers the power of a Graph Database via a simple REST call."
+    },
+    {
+        "API Name": "LLM Output AST Enforcer",
+        "Target Industry": "AI / Governance",
+        "The Enterprise Problem": "LLMs hallucinating broken JSON and corrupting systems.",
+        "The Core Algorithm": "Implement a custom text parser to strip markdown. Count opening/closing braces and brackets {}[]. Mathematically append missing closures to balance the AST. Parse to an object. Traverse the object against the target schema, pruning unknown keys and coercing datatypes using strict 'typeof' mappings.",
+        "Business Value": "Protects deterministic databases from probabilistic AI failures."
+    },
+    {
+        "API Name": "Zero-Trust Telemetry",
+        "Target Industry": "Cybersecurity",
+        "The Enterprise Problem": "Session hijacking and automated bot detection on API gateways.",
+        "The Core Algorithm": "Extract lat/lon from requests. Apply the Haversine spherical trigonometric formula to calculate true Earth distance. Divide by time delta to compute Required Speed. Concurrently calculate Shannon Entropy (-sum(p * log2(p))) on the User-Agent character distribution to detect randomly generated bot strings.",
+        "Business Value": "Replaces expensive stateful auth-monitoring tools with pure math."
+    },
+    {
+        "API Name": "Toolpath & G-Code Optimizer",
+        "Target Industry": "Manufacturing",
+        "The Enterprise Problem": "Inefficient air travel wasting time in CNC / 3D printing.",
+        "The Core Algorithm": "Parse G-Code text into a 3D coordinate array. Isolate 'rapid-travel' (non-cutting) paths. Model these paths as a fully connected graph. Apply the 2-opt heuristic for the Traveling Salesperson Problem (TSP) to iteratively uncross paths, minimizing total distance. Reconstruct into optimized G-Code.",
+        "Business Value": "Saves factories thousands of hours in wasted machine runtime."
+    },
+    {
+        "API Name": "Bio-String Alignment Scorer",
+        "Target Industry": "Digital Health",
+        "The Enterprise Problem": "Checking DNA/RNA sequence overlaps and off-target bindings.",
+        "The Core Algorithm": "Use the Needleman-Wunsch algorithm for global alignment. Create a 2D scoring matrix. Fill the matrix using dynamic programming: match=+1, mismatch=-1, gap=-2. Trace back from the bottom-right to the top-left to determine the exact mutated indices and mathematical alignment score.",
+        "Business Value": "Brings complex bioinformatics to a simple HTTP webhook."
+    },
+    {
+        "API Name": "Merkle Proof Cryptography",
+        "Target Industry": "Web3 / Auditing",
+        "The Enterprise Problem": "Proving supply chain events without exposing the whole database.",
+        "The Core Algorithm": "Hash each raw data block using SHA-256 to create leaf nodes. Pair adjacent nodes, concatenate their hashes, and hash them together. Recursively climb the tree until one Root Hash remains. Generate a proof by returning the array of sibling hashes needed to mathematically reconstruct the path to the root.",
+        "Business Value": "Automates Zero-Knowledge Proof construction for legal audits."
+    },
+    {
+        "API Name": "LLM-Ready / AEO Markdown",
+        "Target Industry": "Marketing / SEO",
+        "The Enterprise Problem": "Search is dead; AI Overviews (AEO) have taken over. Companies need their content formatted for the 'llms.txt' standard to be cited by AI.",
+        "The Core Algorithm": "Execute a DOM-parsing extraction to strip navigation, ads, and footers. Perform semantic content weight analysis to identify the 'main' article body. Convert the resulting HTML tree into a strict, structured Markdown format optimized for LLM tokenization (H1 hierarchy, blockquote summaries, stripped non-semantic formatting).",
+        "Business Value": "Allows companies to reclaim lost search traffic by becoming 'AI-bait' for ChatGPT and Google Gemini."
+    },
+    {
+        "API Name": "Constraint-Based Shift Solver",
+        "Target Industry": "HR / Gig Logistics",
+        "The Enterprise Problem": "Solving complex workforce scheduling (CSP) without breaking labor laws or skill requirements.",
+        "The Core Algorithm": "Execute a Greedy Assignment with Recursive Backtracking. Sort shifts by scarcity (required skills/popularity). For each shift, mathematically validate candidate employees against hard constraints: (1) Mandatory 11-hour rest between shifts, (2) 48-hour maximum weekly cap, (3) Skill-to-Task matching, and (4) Personal unavailability dates. Perform state-swapping if the algorithm reaches a bottleneck to maximize staffing coverage.",
+        "Business Value": "Eliminates the risk of labor law violations and automates a multi-hour weekly management headache."
+    },
+    {
+        "API Name": "Web Crawler Engine",
+        "Target Industry": "Intelligence / Research",
+        "The Enterprise Problem": "Programmatically exploring web pages to extract structured link and content data.",
+        "The Core Algorithm": "Asynchronous BFS Crawler + Recursive Link Normalization.",
+        "Business Value": "Essential for automated research and data harvesting."
+    },
+    {
+        "API Name": "SEO Audit Engine",
+        "Target Industry": "Marketing / SEO",
+        "The Enterprise Problem": "Identifying technical SEO weaknesses without expensive monthly tools.",
+        "The Core Algorithm": "Structural HTML Analysis + WCAG/SEO Scoring Heuristics.",
+        "Business Value": "Actionable insights for marketing without heavy tools."
+    },
+    {
+        "API Name": "Computational Email Scraper",
+        "Target Industry": "LeadGen / Sales",
+        "The Enterprise Problem": "Extracting contact info from pages that use anti-bot obfuscation.",
+        "The Core Algorithm": "Regex Extraction + De-obfuscation ([at], (dot)) + Shannon Entropy Filtering.",
+        "Business Value": "Lead generation utility with high accuracy."
+    },
+    {
+        "API Name": "Perceptual Asset Extractor",
+        "Target Industry": "Content Marketing / Social",
+        "The Enterprise Problem": "Identifying the most important media assets (Hero images, videos) on a page.",
+        "The Core Algorithm": "Asset Weighting (Resolution, Metadata, Keywords) + URL Normalization.",
+        "Business Value": "Content harvesting for social media and marketing."
+    },
+    {
+        "API Name": "Structured Data Extraction Engine",
+        "Target Industry": "Intelligence / Research",
+        "The Enterprise Problem": "Parsing complex JSON-LD and Microdata schemas for knowledge graph construction.",
+        "The Core Algorithm": "Recursive JSON-LD Parser + Schema.org Type Mapping.",
+        "Business Value": "Essential for building rich data scrapers and knowledge graphs."
+    },
+    {
+        "API Name": "Universal Webhook Listener",
+        "Target Industry": "Systems Integration",
+        "The Enterprise Problem": "Standardizing the receipt and validation of asynchronous webhooks.",
+        "The Core Algorithm": "Request-Logging + Payload Validation + Signature Header Auditing.",
+        "Business Value": "Offloads webhook handling from microservices; standardizes data ingestion."
+    },
+    {
+        "API Name": "Bulk Intelligence Orchestrator",
+        "Target Industry": "Data Engineering",
+        "The Enterprise Problem": "Orchestrating multiple intelligence tasks across high-volume URL lists in parallel.",
+        "The Core Algorithm": "Async IO Gathering + Dynamic Engine Mapping.",
+        "Business Value": "Massive throughput for enterprise-scale data harvesting."
+    },
+    {
+        "API Name": "Privacy-First Web Search Engine",
+        "Target Industry": "Intelligence / Research",
+        "The Enterprise Problem": "Programmatically gathering search results without tracking or heavy API fees.",
+        "The Core Algorithm": "DuckDuckGo Search Scraper + Result Normalization.",
+        "Business Value": "Enables automated research and discovery at scale without data leaks."
+    }
+]

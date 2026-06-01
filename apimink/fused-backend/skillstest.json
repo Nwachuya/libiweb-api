@@ -1,0 +1,2082 @@
+{
+  "employees": [
+    {
+      "id": "Staff_001",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_002",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_003",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_004",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_005",
+      "skills": [
+        "RN",
+        "LPN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_006",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_007",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_008",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_009",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_010",
+      "skills": [
+        "RN",
+        "Head_Nurse",
+        "LPN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_011",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_012",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_013",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_014",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_015",
+      "skills": [
+        "RN",
+        "LPN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_016",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_017",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_018",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_019",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_020",
+      "skills": [
+        "RN",
+        "Head_Nurse",
+        "LPN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_021",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_022",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_023",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_024",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_025",
+      "skills": [
+        "RN",
+        "LPN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_026",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_027",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_028",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_029",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_030",
+      "skills": [
+        "RN",
+        "Head_Nurse",
+        "LPN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_031",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_032",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_033",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_034",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_035",
+      "skills": [
+        "RN",
+        "LPN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_036",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_037",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_038",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_039",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_040",
+      "skills": [
+        "RN",
+        "Head_Nurse",
+        "LPN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_041",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_042",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_043",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_044",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_045",
+      "skills": [
+        "RN",
+        "LPN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_046",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_047",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_048",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_049",
+      "skills": [
+        "RN"
+      ],
+      "max_weekly_hours": 40.0
+    },
+    {
+      "id": "Staff_050",
+      "skills": [
+        "RN",
+        "Head_Nurse",
+        "LPN"
+      ],
+      "max_weekly_hours": 40.0
+    }
+  ],
+  "shifts": [
+    {
+      "id": "D01_Morn",
+      "start": "2024-05-01T07:00:00",
+      "end": "2024-05-01T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D01_Aft",
+      "start": "2024-05-01T15:00:00",
+      "end": "2024-05-01T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D01_Night",
+      "start": "2024-05-01T23:00:00",
+      "end": "2024-05-02T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D02_Morn",
+      "start": "2024-05-02T07:00:00",
+      "end": "2024-05-02T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D02_Aft",
+      "start": "2024-05-02T15:00:00",
+      "end": "2024-05-02T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D02_Night",
+      "start": "2024-05-02T23:00:00",
+      "end": "2024-05-03T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D03_Morn",
+      "start": "2024-05-03T07:00:00",
+      "end": "2024-05-03T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D03_Aft",
+      "start": "2024-05-03T15:00:00",
+      "end": "2024-05-03T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D03_Night",
+      "start": "2024-05-03T23:00:00",
+      "end": "2024-05-04T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D04_Morn",
+      "start": "2024-05-04T07:00:00",
+      "end": "2024-05-04T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D04_Aft",
+      "start": "2024-05-04T15:00:00",
+      "end": "2024-05-04T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D04_Night",
+      "start": "2024-05-04T23:00:00",
+      "end": "2024-05-05T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D05_Morn",
+      "start": "2024-05-05T07:00:00",
+      "end": "2024-05-05T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D05_Aft",
+      "start": "2024-05-05T15:00:00",
+      "end": "2024-05-05T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D05_Night",
+      "start": "2024-05-05T23:00:00",
+      "end": "2024-05-06T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D06_Morn",
+      "start": "2024-05-06T07:00:00",
+      "end": "2024-05-06T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D06_Aft",
+      "start": "2024-05-06T15:00:00",
+      "end": "2024-05-06T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D06_Night",
+      "start": "2024-05-06T23:00:00",
+      "end": "2024-05-07T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D07_Morn",
+      "start": "2024-05-07T07:00:00",
+      "end": "2024-05-07T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D07_Aft",
+      "start": "2024-05-07T15:00:00",
+      "end": "2024-05-07T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D07_Night",
+      "start": "2024-05-07T23:00:00",
+      "end": "2024-05-08T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D08_Morn",
+      "start": "2024-05-08T07:00:00",
+      "end": "2024-05-08T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D08_Aft",
+      "start": "2024-05-08T15:00:00",
+      "end": "2024-05-08T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D08_Night",
+      "start": "2024-05-08T23:00:00",
+      "end": "2024-05-09T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D09_Morn",
+      "start": "2024-05-09T07:00:00",
+      "end": "2024-05-09T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D09_Aft",
+      "start": "2024-05-09T15:00:00",
+      "end": "2024-05-09T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D09_Night",
+      "start": "2024-05-09T23:00:00",
+      "end": "2024-05-10T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D10_Morn",
+      "start": "2024-05-10T07:00:00",
+      "end": "2024-05-10T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D10_Aft",
+      "start": "2024-05-10T15:00:00",
+      "end": "2024-05-10T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D10_Night",
+      "start": "2024-05-10T23:00:00",
+      "end": "2024-05-11T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D11_Morn",
+      "start": "2024-05-11T07:00:00",
+      "end": "2024-05-11T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D11_Aft",
+      "start": "2024-05-11T15:00:00",
+      "end": "2024-05-11T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D11_Night",
+      "start": "2024-05-11T23:00:00",
+      "end": "2024-05-12T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D12_Morn",
+      "start": "2024-05-12T07:00:00",
+      "end": "2024-05-12T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D12_Aft",
+      "start": "2024-05-12T15:00:00",
+      "end": "2024-05-12T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D12_Night",
+      "start": "2024-05-12T23:00:00",
+      "end": "2024-05-13T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D13_Morn",
+      "start": "2024-05-13T07:00:00",
+      "end": "2024-05-13T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D13_Aft",
+      "start": "2024-05-13T15:00:00",
+      "end": "2024-05-13T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D13_Night",
+      "start": "2024-05-13T23:00:00",
+      "end": "2024-05-14T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D14_Morn",
+      "start": "2024-05-14T07:00:00",
+      "end": "2024-05-14T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D14_Aft",
+      "start": "2024-05-14T15:00:00",
+      "end": "2024-05-14T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D14_Night",
+      "start": "2024-05-14T23:00:00",
+      "end": "2024-05-15T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D15_Morn",
+      "start": "2024-05-15T07:00:00",
+      "end": "2024-05-15T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D15_Aft",
+      "start": "2024-05-15T15:00:00",
+      "end": "2024-05-15T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D15_Night",
+      "start": "2024-05-15T23:00:00",
+      "end": "2024-05-16T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D16_Morn",
+      "start": "2024-05-16T07:00:00",
+      "end": "2024-05-16T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D16_Aft",
+      "start": "2024-05-16T15:00:00",
+      "end": "2024-05-16T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D16_Night",
+      "start": "2024-05-16T23:00:00",
+      "end": "2024-05-17T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D17_Morn",
+      "start": "2024-05-17T07:00:00",
+      "end": "2024-05-17T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D17_Aft",
+      "start": "2024-05-17T15:00:00",
+      "end": "2024-05-17T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D17_Night",
+      "start": "2024-05-17T23:00:00",
+      "end": "2024-05-18T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D18_Morn",
+      "start": "2024-05-18T07:00:00",
+      "end": "2024-05-18T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D18_Aft",
+      "start": "2024-05-18T15:00:00",
+      "end": "2024-05-18T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D18_Night",
+      "start": "2024-05-18T23:00:00",
+      "end": "2024-05-19T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D19_Morn",
+      "start": "2024-05-19T07:00:00",
+      "end": "2024-05-19T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D19_Aft",
+      "start": "2024-05-19T15:00:00",
+      "end": "2024-05-19T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D19_Night",
+      "start": "2024-05-19T23:00:00",
+      "end": "2024-05-20T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D20_Morn",
+      "start": "2024-05-20T07:00:00",
+      "end": "2024-05-20T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D20_Aft",
+      "start": "2024-05-20T15:00:00",
+      "end": "2024-05-20T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D20_Night",
+      "start": "2024-05-20T23:00:00",
+      "end": "2024-05-21T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D21_Morn",
+      "start": "2024-05-21T07:00:00",
+      "end": "2024-05-21T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D21_Aft",
+      "start": "2024-05-21T15:00:00",
+      "end": "2024-05-21T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D21_Night",
+      "start": "2024-05-21T23:00:00",
+      "end": "2024-05-22T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D22_Morn",
+      "start": "2024-05-22T07:00:00",
+      "end": "2024-05-22T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D22_Aft",
+      "start": "2024-05-22T15:00:00",
+      "end": "2024-05-22T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D22_Night",
+      "start": "2024-05-22T23:00:00",
+      "end": "2024-05-23T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D23_Morn",
+      "start": "2024-05-23T07:00:00",
+      "end": "2024-05-23T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D23_Aft",
+      "start": "2024-05-23T15:00:00",
+      "end": "2024-05-23T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D23_Night",
+      "start": "2024-05-23T23:00:00",
+      "end": "2024-05-24T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D24_Morn",
+      "start": "2024-05-24T07:00:00",
+      "end": "2024-05-24T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D24_Aft",
+      "start": "2024-05-24T15:00:00",
+      "end": "2024-05-24T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D24_Night",
+      "start": "2024-05-24T23:00:00",
+      "end": "2024-05-25T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D25_Morn",
+      "start": "2024-05-25T07:00:00",
+      "end": "2024-05-25T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D25_Aft",
+      "start": "2024-05-25T15:00:00",
+      "end": "2024-05-25T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D25_Night",
+      "start": "2024-05-25T23:00:00",
+      "end": "2024-05-26T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D26_Morn",
+      "start": "2024-05-26T07:00:00",
+      "end": "2024-05-26T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D26_Aft",
+      "start": "2024-05-26T15:00:00",
+      "end": "2024-05-26T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D26_Night",
+      "start": "2024-05-26T23:00:00",
+      "end": "2024-05-27T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D27_Morn",
+      "start": "2024-05-27T07:00:00",
+      "end": "2024-05-27T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D27_Aft",
+      "start": "2024-05-27T15:00:00",
+      "end": "2024-05-27T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D27_Night",
+      "start": "2024-05-27T23:00:00",
+      "end": "2024-05-28T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D28_Morn",
+      "start": "2024-05-28T07:00:00",
+      "end": "2024-05-28T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D28_Aft",
+      "start": "2024-05-28T15:00:00",
+      "end": "2024-05-28T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D28_Night",
+      "start": "2024-05-28T23:00:00",
+      "end": "2024-05-29T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D29_Morn",
+      "start": "2024-05-29T07:00:00",
+      "end": "2024-05-29T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D29_Aft",
+      "start": "2024-05-29T15:00:00",
+      "end": "2024-05-29T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D29_Night",
+      "start": "2024-05-29T23:00:00",
+      "end": "2024-05-30T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D30_Morn",
+      "start": "2024-05-30T07:00:00",
+      "end": "2024-05-30T15:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D30_Aft",
+      "start": "2024-05-30T15:00:00",
+      "end": "2024-05-30T23:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "D30_Night",
+      "start": "2024-05-30T23:00:00",
+      "end": "2024-05-31T07:00:00",
+      "requirements": [
+        {
+          "skill": "Head_Nurse",
+          "count": 1
+        },
+        {
+          "skill": "RN",
+          "count": 1
+        },
+        {
+          "skill": "LPN",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "min_rest_hours": 11.0
+}
